@@ -1,9 +1,6 @@
 # attify-badge
 Attify Badge GUI tool to interact over UART, SPI, JTAG, GPIO etc. 
 
-The first build of the tool will focus only on linux.
-The GUI will be built using PyQt4 and python2.
-We intend to make the tool cross platform eventually.
 
 Okay, so following @Arun Mangesh's advice, I rewrote the tool in python2 and Qt4. main.py got a little buggy along the way. For now I removed the Run-Baudrate.py function due to the long processing time and incorrect results that I seem to be getting, I'll add it again once I figure out what went wrong with it. ( Right now it just keeps showing 115200 as the baud rate on every device) 
 
