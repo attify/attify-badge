@@ -31,7 +31,6 @@ def GPIO_PinSwitch(pin_number, state):
 
 ser=serial.Serial()
 connection_flag=0
-
 class Myclass(Ui_MainWindow):
 	def __init__(self,dialog):
 		Ui_MainWindow.__init__(self)
@@ -39,6 +38,8 @@ class Myclass(Ui_MainWindow):
 		#-----------------------UART--------------------------------
 		result=[]
 		#ser=serial.Serial()
+		global ser
+	        self.textEdit_UartConsole.append("[*] Looking for USB devices")
 		result=UART_getport()
 		self.comboBox_Port.addItems(result)
 		self.pushButton_Connect.clicked.connect(self.UART_Connect)
@@ -53,10 +54,10 @@ class Myclass(Ui_MainWindow):
 		self.checkBox_d5.clicked.connect(self.GPIO_d5_Handler)
 		self.checkBox_d6.clicked.connect(self.GPIO_d6_Handler)
 		self.checkBox_d7.clicked.connect(self.GPIO_d7_Handler)
-		
+
 
 	def UART_Connect(self):
-		#Connects to the device who's port address ig given by ComboBox_Port
+		#Connects to the device who's port address is given by ComboBox_Port, disconnects if already connected
 		print("[*] UART_Connect invoked ")
 		global ser
 		ser_port=str(self.comboBox_Port.currentText())
@@ -64,10 +65,20 @@ class Myclass(Ui_MainWindow):
 		ser.port=ser_port
 		ser.baudrate=baud_rate
 		try:
-			ser.open()
-			print("[*] UART_Connect executed Successfully ")
-			self.textEdit_UartConsole.append("[*] Connected to device on port <b>"+ser_port+"</b>")
-			self.textEdit_UartConsole.append("[*] -----------------------------------------------------------------------------------------------------------")
+			if(str(ser.isOpen())=="False"):
+				ser.open()
+				self.lineEdit_UartInput.enabledChange(True)
+				print("[*] UART_Connect executed Successfully ")
+				self.textEdit_UartConsole.append("[*] Connected to device on port <b>"+ser_port+"</b>")
+				self.textEdit_UartConsole.append("[*] -----------------------------------------------------------------------------------------------------------")
+				self.pushButton_Connect.setText("Disconnect")
+				print("[*] Serial port opened ")
+			else:
+				ser.close()
+                                self.lineEdit_UartInput.enabledChange(False)
+                                self.pushButton_Connect.setText("Connect")
+                                self.textEdit_UartConsole.append("[*] Disconnected from device on port <b>"+ser_port+"</b>")
+				print("[*] Serial port closed ")
 		except:
 			print("[*] UART_Connect Failed ")
 			self.textEdit_UartConsole.append("[*] Connection Failed ")
@@ -93,7 +104,9 @@ class Myclass(Ui_MainWindow):
 		sleep(0.5)
 		ser.write(terminator.encode())
 		self.lineEdit_UartInput.setText("")
-		output=ser.read_all()
+                output=""
+                while ser.inWaiting() > 0:
+                        output += ser.read(1)
 		if(len(output)>0):
 			self.textEdit_UartConsole.append(output)
 
