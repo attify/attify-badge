@@ -346,7 +346,7 @@ class Ui_MainWindow(object):
         self.comboBox_BaudRate.setItemText(10, _translate("MainWindow", "115200", None))
         self.comboBox_BaudRate.setItemText(11, _translate("MainWindow", "128000", None))
         self.comboBox_BaudRate.setItemText(12, _translate("MainWindow", "256000", None))
-        self.pushButton_AutoDetect.setText(_translate("MainWindow", "Detect BaudRate", None))
+        self.pushButton_AutoDetect.setText(_translate("MainWindow", "Run Baudrate.py", None))
         self.pushButton_Connect.setText(_translate("MainWindow", "Connect", None))
         self.comboBox_Ender.setItemText(0, _translate("MainWindow", "No line ending", None))
         self.comboBox_Ender.setItemText(1, _translate("MainWindow", "Carriage Return", None))
@@ -358,7 +358,7 @@ class Ui_MainWindow(object):
 "</style></head><body style=\" font-family:\'Ubuntu\'; font-size:11pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt; color:#ff5500;\">                                                             Attify Badge Tool V1.0</span></p>\n"
 "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">[*] Detecting USB ports</p></body></html>", None))
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_UART), _translate("MainWindow", "   UART   ", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_I2C), _translate("MainWindow", "     I2C     ", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_SPI), _translate("MainWindow", "     SPI     ", None))
