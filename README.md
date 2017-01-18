@@ -10,14 +10,14 @@ PyQt4
 I'll make a installer for the tool soon.
 
 Implemented : 
--> UART
--> GPIO - output
+- UART
+- GPIO : output
 
 Not Implemented :
--> SPI
--> I2C
--> JTAG
--> GPIO - input ( using matploitlib )
+- SPI
+- I2C
+- JTAG
+- GPIO : input ( using matploitlib )
 
 
 Run main.py ( with sudo )!
