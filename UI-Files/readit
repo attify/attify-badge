@@ -1,0 +1,3 @@
+The UI files in this directory are only needed if you need to edit the user interface, use qt4-designer to make modifications.
+If you don't need to modify the UI, ignore this directory.
+~ txjoe
