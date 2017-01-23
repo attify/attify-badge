@@ -261,9 +261,8 @@ class IPMonitor(QtGui.QWidget, Ui_Form):
                 for x in range(0,8):
                         if(input_pins[x]):
                                 pin_set.append(x)
-                print(pin_set)
+                print("[*] Pins Set as input "+str(pin_set))
                 self.pin_set=pin_set
-
 
 	def stopthread(self):
 		self.thread.close()
@@ -280,10 +279,11 @@ class IPMonitor(QtGui.QWidget, Ui_Form):
 		else:
                         self.PinMappings[pin].setText("State : LOW ")
 
-
 	def close_monitor(self):
 		self.thread.stop()
 		self.close()
+
+
 
 if __name__=="__main__":
 	app=QtGui.QApplication(sys.argv)
