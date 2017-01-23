@@ -19,7 +19,12 @@ Not Implemented :
 - JTAG
 
 
-Bugs
+Bugs :
+
+- In the GPIO monitor window, the floating states are detected as high.
+  this is a hardware issue which will be resolved in the next version of
+  the badge
+
 
 Run main.py ( with sudo )!
 
