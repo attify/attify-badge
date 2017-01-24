@@ -9,6 +9,8 @@ import serial,time,os,fnmatch
 from time import sleep
 import sys
 
+ft232h=0
+
 #Function to get a list of USB ports connected to the computer
 def UART_getport():
 	print("[*] UART_getport invoked ")
@@ -20,6 +22,17 @@ def UART_getport():
 			if fnmatch.fnmatch(name, pattern):
 				result.append(os.path.join(root, name))
 	return result
+
+def setupGPIO():
+	global ft232h
+	if(ft232h==0):
+		try:
+        		FT232H.use_FT232H()
+        		ft232h = FT232H.FT232H()
+        		GPIO_Defaults()
+		except:
+        		print("[*] FATAL ERROR : Attify Badge not connected ")
+        		exit()
 
 
 #function to set all the pins to output by default
@@ -37,13 +50,7 @@ def GPIO_Defaults():
 
 #Function to toggle GPIO pins
 def GPIO_PinSwitch(pin_number, state, mode):
-	try:
-        	FT232H.use_FT232H()
-        	ft232h = FT232H.FT232H()
-		GPIO_Defaults()
-	except:
-        	print("[*] FATAL ERROR : Attify Badge not connected ")
-       		exit()
+	setupGPIO()
 	if mode=="input":
 		ft232h.setup(pin_number, GPIO.IN)
 	else:
