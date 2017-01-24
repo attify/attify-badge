@@ -4,18 +4,10 @@ from Badge import Ui_MainWindow
 from gpioinput import Ui_Form
 import Adafruit_GPIO as GPIO
 import Adafruit_GPIO.FT232H as FT232H
-from subprocess import call
+import os
 import serial,time,os,fnmatch
 from time import sleep
 import sys
-
-try:
-	FT232H.use_FT232H()
-	ft232h = FT232H.FT232H()
-
-except:
-	print("[*] FATAL ERROR : Attify Badge not connected ")
-	exit()
 
 #Function to get a list of USB ports connected to the computer
 def UART_getport():
@@ -43,10 +35,15 @@ def GPIO_Defaults():
         ft232h.setup(6, GPIO.OUT)
         ft232h.setup(7, GPIO.OUT)
 
-GPIO_Defaults()
-
 #Function to toggle GPIO pins
 def GPIO_PinSwitch(pin_number, state, mode):
+	try:
+        	FT232H.use_FT232H()
+        	ft232h = FT232H.FT232H()
+		GPIO_Defaults()
+	except:
+        	print("[*] FATAL ERROR : Attify Badge not connected ")
+       		exit()
 	if mode=="input":
 		ft232h.setup(pin_number, GPIO.IN)
 	else:
@@ -106,6 +103,50 @@ class BadgeMain(Ui_MainWindow):
 		self.checkBox_d6.clicked.connect(self.GPIO_d6_Handler)
 		self.checkBox_d7.clicked.connect(self.GPIO_d7_Handler)
 		self.InputMonitorButton.clicked.connect(self.GPIO_StartMonitor)
+		#-----------------------SPI--------------------------------
+		self.SPI_RunButton.clicked.connect(self.SPI_Preset_Operations)
+		self.SPI_CustomCmd.returnPressed.connect(self.SPI_CustomOperation)
+		#---------------------------------------------------------
+
+
+
+	def SPI_Preset_Operations(self):
+		#Runs the operation specified in the combo box in the SPI Tab
+		#Remember to remove last line of ouput from Find Chip
+		#It just says no operations specified
+		print("[*] SPI_Preset_Operations ")
+		cmd=str(self.SPI_OperationComboBox.currentText()).strip()
+		if cmd=="Find Chip":
+			print("	[*] SPI -> Find Chip ")
+			retvalue = os.popen("flashrom -p ft2232_spi:type=232H ").readlines()
+			for item in retvalue:
+				self.SPI_Console.append(item.replace("\n"," "))
+
+		elif cmd=="Read":
+                        print(" [*] SPI -> Read ")
+			filepath=str(self.SPI_FilePath.text())
+                        retvalue = os.popen("flashrom -p ft2232_spi:type=232H -r "+filepath).readlines()
+                        for item in retvalue:
+                                self.SPI_Console.append(item.replace("\n"," "))
+
+		elif cmd=="Write":
+                        print(" [*] SPI -> Write")
+                        filepath=str(self.SPI_FilePath.text())
+                        retvalue = os.popen("flashrom -p ft2232_spi:type=232H -w "+filepath).readlines()
+                        for item in retvalue:
+                                self.SPI_Console.append(item.replace("\n"," "))
+
+		elif cmd=="Erase":
+                        print(" [*] SPI -> Erase ")
+                        filepath=str(self.SPI_FilePath.text())
+                        retvalue = os.popen("flashrom -p ft2232_spi:type=232H --erase").readlines()
+                        for item in retvalue:
+                                self.SPI_Console.append(item.replace("\n"," "))
+
+	def SPI_CustomOperation(self):
+		##	NOT
+		##	IMPLEMENTED
+		print("[*] SPI_CustomOperation Invoked ")
 
 	def GPIO_StartMonitor(self):
         	if self.InputMonitor is None:
