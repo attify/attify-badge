@@ -43,6 +43,8 @@ I'll make a installer for the tool soon.
 	sollution, but there might be more problems while trying to write the code 
 	for JTAG and I2C. This is kinda important.
 
-
+###Install: 
+chmod +x install.sh
+./install.sh
 Run main.py ( with sudo )!
 
