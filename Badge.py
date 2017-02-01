@@ -25,11 +25,11 @@ except AttributeError:
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName(_fromUtf8("MainWindow"))
-        MainWindow.resize(688, 564)
+        MainWindow.resize(830, 614)
         self.centralwidget = QtGui.QWidget(MainWindow)
         self.centralwidget.setObjectName(_fromUtf8("centralwidget"))
         self.tabWidget = QtGui.QTabWidget(self.centralwidget)
-        self.tabWidget.setGeometry(QtCore.QRect(10, 20, 661, 491))
+        self.tabWidget.setGeometry(QtCore.QRect(10, 20, 811, 541))
         self.tabWidget.setObjectName(_fromUtf8("tabWidget"))
         self.tab_UART = QtGui.QWidget()
         self.tab_UART.setObjectName(_fromUtf8("tab_UART"))
@@ -52,29 +52,26 @@ class Ui_MainWindow(object):
         self.comboBox_BaudRate.addItem(_fromUtf8(""))
         self.comboBox_BaudRate.addItem(_fromUtf8(""))
         self.comboBox_BaudRate.addItem(_fromUtf8(""))
-        self.pushButton_AutoDetect = QtGui.QPushButton(self.tab_UART)
-        self.pushButton_AutoDetect.setGeometry(QtCore.QRect(390, 20, 131, 27))
-        self.pushButton_AutoDetect.setObjectName(_fromUtf8("pushButton_AutoDetect"))
         self.pushButton_Connect = QtGui.QPushButton(self.tab_UART)
-        self.pushButton_Connect.setGeometry(QtCore.QRect(530, 20, 111, 27))
+        self.pushButton_Connect.setGeometry(QtCore.QRect(680, 20, 111, 27))
         self.pushButton_Connect.setObjectName(_fromUtf8("pushButton_Connect"))
         self.line = QtGui.QFrame(self.tab_UART)
-        self.line.setGeometry(QtCore.QRect(10, 60, 641, 20))
+        self.line.setGeometry(QtCore.QRect(10, 60, 791, 20))
         self.line.setFrameShape(QtGui.QFrame.HLine)
         self.line.setFrameShadow(QtGui.QFrame.Sunken)
         self.line.setObjectName(_fromUtf8("line"))
         self.lineEdit_UartInput = QtGui.QLineEdit(self.tab_UART)
-        self.lineEdit_UartInput.setGeometry(QtCore.QRect(10, 420, 491, 27))
+        self.lineEdit_UartInput.setGeometry(QtCore.QRect(10, 470, 641, 27))
         self.lineEdit_UartInput.setObjectName(_fromUtf8("lineEdit_UartInput"))
         self.comboBox_Ender = QtGui.QComboBox(self.tab_UART)
-        self.comboBox_Ender.setGeometry(QtCore.QRect(510, 420, 131, 27))
+        self.comboBox_Ender.setGeometry(QtCore.QRect(660, 470, 131, 27))
         self.comboBox_Ender.setObjectName(_fromUtf8("comboBox_Ender"))
         self.comboBox_Ender.addItem(_fromUtf8(""))
         self.comboBox_Ender.addItem(_fromUtf8(""))
         self.comboBox_Ender.addItem(_fromUtf8(""))
         self.comboBox_Ender.addItem(_fromUtf8(""))
         self.textEdit_UartConsole = QtGui.QTextEdit(self.tab_UART)
-        self.textEdit_UartConsole.setGeometry(QtCore.QRect(10, 80, 631, 331))
+        self.textEdit_UartConsole.setGeometry(QtCore.QRect(10, 80, 791, 381))
         palette = QtGui.QPalette()
         brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
         brush.setStyle(QtCore.Qt.SolidPattern)
@@ -616,7 +613,7 @@ class Ui_MainWindow(object):
         self.tabWidget.addTab(self.tab_JTAG, _fromUtf8(""))
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtGui.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 688, 25))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 830, 25))
         self.menubar.setObjectName(_fromUtf8("menubar"))
         self.menuFile = QtGui.QMenu(self.menubar)
         self.menuFile.setObjectName(_fromUtf8("menuFile"))
@@ -651,7 +648,7 @@ class Ui_MainWindow(object):
         self.menubar.addAction(self.menuInterfaces.menuAction())
 
         self.retranslateUi(MainWindow)
-        self.tabWidget.setCurrentIndex(1)
+        self.tabWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -669,7 +666,6 @@ class Ui_MainWindow(object):
         self.comboBox_BaudRate.setItemText(10, _translate("MainWindow", "115200", None))
         self.comboBox_BaudRate.setItemText(11, _translate("MainWindow", "128000", None))
         self.comboBox_BaudRate.setItemText(12, _translate("MainWindow", "256000", None))
-        self.pushButton_AutoDetect.setText(_translate("MainWindow", "Run Baudrate.py", None))
         self.pushButton_Connect.setText(_translate("MainWindow", "Connect", None))
         self.comboBox_Ender.setItemText(0, _translate("MainWindow", "No line ending", None))
         self.comboBox_Ender.setItemText(1, _translate("MainWindow", "Carriage Return", None))
@@ -679,9 +675,7 @@ class Ui_MainWindow(object):
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
 "</style></head><body style=\" font-family:\'Ubuntu\'; font-size:11pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:12pt; font-weight:600; color:#ff5500;\">                                                             Attify Badge Tool V1.0</span></p>\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-weight:600;\"><br /></p>\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-weight:600;\"><br /></p></body></html>", None))
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_UART), _translate("MainWindow", "   UART   ", None))
         self.I2C_Console.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
