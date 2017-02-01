@@ -14,6 +14,7 @@ sudo make install
 
 sudo apt-get install git
 git clone https://github.com/adafruit/Adafruit_Python_GPIO/
+cd Adafruit_Python_GPIO-master
 sudo python setup.py install
 
 
