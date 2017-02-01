@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>3</number>
     </property>
     <widget class="QWidget" name="tab_UART">
      <attribute name="title">
@@ -626,8 +626,8 @@ p, li { white-space: pre-wrap; }
        <rect>
         <x>10</x>
         <y>70</y>
-        <width>641</width>
-        <height>381</height>
+        <width>781</width>
+        <height>431</height>
        </rect>
       </property>
       <property name="palette">
@@ -1061,7 +1061,7 @@ p, li { white-space: pre-wrap; }
        <rect>
         <x>10</x>
         <y>20</y>
-        <width>391</width>
+        <width>521</width>
         <height>27</height>
        </rect>
       </property>
@@ -1075,7 +1075,7 @@ p, li { white-space: pre-wrap; }
      <widget class="QComboBox" name="I2C_OperationComboBox">
       <property name="geometry">
        <rect>
-        <x>410</x>
+        <x>540</x>
         <y>20</y>
         <width>161</width>
         <height>27</height>
@@ -1105,7 +1105,7 @@ p, li { white-space: pre-wrap; }
      <widget class="QPushButton" name="I2C_RunButton">
       <property name="geometry">
        <rect>
-        <x>580</x>
+        <x>710</x>
         <y>20</y>
         <width>71</width>
         <height>27</height>
@@ -1125,8 +1125,8 @@ p, li { white-space: pre-wrap; }
        <rect>
         <x>10</x>
         <y>70</y>
-        <width>641</width>
-        <height>341</height>
+        <width>781</width>
+        <height>391</height>
        </rect>
       </property>
       <property name="palette">
@@ -1549,7 +1549,7 @@ p, li { white-space: pre-wrap; }
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Ubuntu'; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:12pt; font-weight:600; color:#ff5500;&quot;&gt;                                                                    SPI Console&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:12pt; font-weight:600; color:#ff5500;&quot;&gt;                                                                                            SPI Console&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:12pt; font-weight:600; color:#ff5500;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:12pt; color:#ffffff;&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:12pt; color:#ffffff;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -1560,7 +1560,7 @@ p, li { white-space: pre-wrap; }
        <rect>
         <x>10</x>
         <y>20</y>
-        <width>391</width>
+        <width>531</width>
         <height>27</height>
        </rect>
       </property>
@@ -1571,7 +1571,7 @@ p, li { white-space: pre-wrap; }
      <widget class="QComboBox" name="SPI_OperationComboBox">
       <property name="geometry">
        <rect>
-        <x>410</x>
+        <x>550</x>
         <y>20</y>
         <width>161</width>
         <height>27</height>
@@ -1601,7 +1601,7 @@ p, li { white-space: pre-wrap; }
      <widget class="QPushButton" name="SPI_RunButton">
       <property name="geometry">
        <rect>
-        <x>580</x>
+        <x>720</x>
         <y>20</y>
         <width>71</width>
         <height>27</height>
@@ -1615,8 +1615,8 @@ p, li { white-space: pre-wrap; }
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>420</y>
-        <width>641</width>
+        <y>470</y>
+        <width>781</width>
         <height>27</height>
        </rect>
       </property>
@@ -1787,7 +1787,7 @@ p, li { white-space: pre-wrap; }
      <widget class="QComboBox" name="comboBox_d5">
       <property name="geometry">
        <rect>
-        <x>470</x>
+        <x>620</x>
         <y>170</y>
         <width>131</width>
         <height>27</height>
@@ -1812,8 +1812,8 @@ p, li { white-space: pre-wrap; }
      <widget class="QComboBox" name="comboBox_d7">
       <property name="geometry">
        <rect>
-        <x>470</x>
-        <y>350</y>
+        <x>620</x>
+        <y>340</y>
         <width>131</width>
         <height>27</height>
        </rect>
@@ -1837,8 +1837,8 @@ p, li { white-space: pre-wrap; }
      <widget class="QCheckBox" name="checkBox_d4">
       <property name="geometry">
        <rect>
-        <x>390</x>
-        <y>81</y>
+        <x>540</x>
+        <y>80</y>
         <width>71</width>
         <height>31</height>
        </rect>
@@ -1850,8 +1850,8 @@ p, li { white-space: pre-wrap; }
      <widget class="QCheckBox" name="checkBox_d6">
       <property name="geometry">
        <rect>
-        <x>390</x>
-        <y>261</y>
+        <x>540</x>
+        <y>260</y>
         <width>71</width>
         <height>31</height>
        </rect>
@@ -1863,7 +1863,7 @@ p, li { white-space: pre-wrap; }
      <widget class="QComboBox" name="comboBox_d4">
       <property name="geometry">
        <rect>
-        <x>470</x>
+        <x>620</x>
         <y>80</y>
         <width>131</width>
         <height>27</height>
@@ -1888,8 +1888,8 @@ p, li { white-space: pre-wrap; }
      <widget class="QCheckBox" name="checkBox_d5">
       <property name="geometry">
        <rect>
-        <x>390</x>
-        <y>171</y>
+        <x>540</x>
+        <y>170</y>
         <width>71</width>
         <height>31</height>
        </rect>
@@ -1901,8 +1901,8 @@ p, li { white-space: pre-wrap; }
      <widget class="QCheckBox" name="checkBox_d7">
       <property name="geometry">
        <rect>
-        <x>390</x>
-        <y>350</y>
+        <x>540</x>
+        <y>340</y>
         <width>71</width>
         <height>31</height>
        </rect>
@@ -1914,7 +1914,7 @@ p, li { white-space: pre-wrap; }
      <widget class="QComboBox" name="comboBox_d6">
       <property name="geometry">
        <rect>
-        <x>470</x>
+        <x>620</x>
         <y>260</y>
         <width>131</width>
         <height>27</height>
@@ -1939,14 +1939,27 @@ p, li { white-space: pre-wrap; }
      <widget class="QPushButton" name="InputMonitorButton">
       <property name="geometry">
        <rect>
-        <x>250</x>
-        <y>400</y>
+        <x>620</x>
+        <y>470</y>
         <width>161</width>
         <height>27</height>
        </rect>
       </property>
       <property name="text">
        <string>Start Input Monitor</string>
+      </property>
+     </widget>
+     <widget class="Line" name="line_2">
+      <property name="geometry">
+       <rect>
+        <x>383</x>
+        <y>50</y>
+        <width>20</width>
+        <height>361</height>
+       </rect>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
       </property>
      </widget>
     </widget>
