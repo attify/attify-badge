@@ -30,8 +30,8 @@ def setupGPIO():
         		FT232H.use_FT232H()
         		ft232h = FT232H.FT232H()
         		GPIO_Defaults()
-		except:
-        		print("[*] FATAL ERROR : Attify Badge not connected ")
+		except Exception as e:
+        		print("[*] Error : "+str(e))
         		exit()
 
 
@@ -83,23 +83,42 @@ class InputMonitorThread(QtCore.QThread):
 				self.emit(SIGNAL('update_states(int,int)'), state, pin)
 
 
+class UART_ConsoleReadThread(QtCore.QThread):
+	def __init__(self):
+		global ser
+                super(UART_ConsoleReadThread,self).__init__()
+		string=""
+
+	def __del__(self):
+		self.wait()
+
+	def close(self):
+		self.terminate()
+
+	def run(self):
+		while 1:
+			if ser.in_waiting > 0:
+				self.string=ser.read_all()
+				self.emit(SIGNAL('update_console(QString)'), QtCore.QString(self.string))
+
 ser=serial.Serial()
 connection_flag=0
 class BadgeMain(Ui_MainWindow):
 	def __init__(self,dialog):
 		Ui_MainWindow.__init__(self)
 		self.setupUi(dialog)
+                self.thread=UART_ConsoleReadThread()
+		QtCore.QObject.connect(self.thread,QtCore.SIGNAL("update_console(QString)"), self.UART_read)
 		#-----------------------UART--------------------------------
 		result=[]
 		self.InputMonitor= None
 		#ser=serial.Serial()
 		global ser
-	        self.textEdit_UartConsole.append("[*] Looking for USB devices")
+#	        self.textEdit_UartConsole.append("[*] Looking for USB devices")
 		result=UART_getport()
 		self.comboBox_Port.addItems(result)
 		self.pushButton_Connect.clicked.connect(self.UART_Connect)
 		self.lineEdit_UartInput.returnPressed.connect(self.UART_txsend)
-		self.pushButton_AutoDetect.clicked.connect(self.UART_BaudRate_py)
 		#-----------------------GPIO--------------------------------
 		self.checkBox_d0.clicked.connect(self.GPIO_d0_Handler)
 		self.checkBox_d1.clicked.connect(self.GPIO_d1_Handler)
@@ -174,20 +193,30 @@ class BadgeMain(Ui_MainWindow):
 				ser.open()
 				self.lineEdit_UartInput.enabledChange(True)
 				print("[*] UART_Connect executed Successfully ")
-				self.textEdit_UartConsole.append("[*] Connected to device on port <b>"+ser_port+"</b>")
-				self.textEdit_UartConsole.append("[*] -----------------------------------------------------------------------------------------------------------")
-				self.pushButton_Connect.setText("Disconnect")
+#				self.textEdit_UartConsole.append("[*] Connected to device on port <b>"+ser_port+"</b>")
+#				self.textEdit_UartConsole.append("[*] -----------------------------------------------------------------------------------------------------------")
+#				self.pushButton_Connect.setText("Disconnect")
 				print("[*] Serial port opened ")
+				print("[*] Starting UARTConsoleReadThread ")
+				self.thread.start()
 			else:
+				print("[*] Stopping UART_ConsoleReadThread ")
+				self.thread.close()
 				ser.close()
                                 self.lineEdit_UartInput.enabledChange(False)
                                 self.pushButton_Connect.setText("Connect")
-                                self.textEdit_UartConsole.append("[*] Disconnected from device on port <b>"+ser_port+"</b>")
+ #                               self.textEdit_UartConsole.append("[*] Disconnected from device on port <b>"+ser_port+"</b>")
 				print("[*] Serial port closed ")
-		except:
-			print("[*] UART_Connect Failed ")
+		except Exception as e:
+			print("[*] UART_Connect Failed ->"+str(e))
 			self.textEdit_UartConsole.append("[*] Connection Failed ")
 		return
+	
+
+	def UART_read(self, QString):
+		self.textEdit_UartConsole.insertPlainText(str(QString))
+		self.textEdit_UartConsole.moveCursor(QtGui.QTextCursor.End)
+
 
 	def UART_txsend(self):
 		#sends the contents of lineEdit_UartInput to the connected device
@@ -195,6 +224,8 @@ class BadgeMain(Ui_MainWindow):
 		global ser
 		terminator=""
 		command=self.lineEdit_UartInput.text()
+		if(command=="clear"):
+			self.textEdit_UartConsole.clear()
 		if(str(self.comboBox_Ender.currentText())=="No line ending"):
 			terminator=""
 		elif(str(self.comboBox_Ender.currentText())=="Carriage Return"):
@@ -203,17 +234,13 @@ class BadgeMain(Ui_MainWindow):
 			terminator="\n"
 		elif(str(self.comboBox_Ender.currentText())=="Both CR + NL"):
 			terminator="\r\n"
-		if(len(command)>0):
-			self.textEdit_UartConsole.append(command)
+#		if(len(command)>0):
+#			self.textEdit_UartConsole.append(command)
 		ser.write(str((command+terminator)).encode())
 		sleep(0.5)
 		ser.write(terminator.encode())
 		self.lineEdit_UartInput.setText("")
-                output=""
-                while ser.inWaiting() > 0:
-                        output += ser.read(1)
-		if(len(output)>0):
-			self.textEdit_UartConsole.append(output)
+
 
 
 	def UART_BaudRate_py(self):
@@ -305,6 +332,7 @@ class IPMonitor(QtGui.QWidget, Ui_Form):
                 self.CloseButton.clicked.connect(self.close)
                 self.StartMonitor.clicked.connect(self.UpdatePinStates)
                 self.CloseButton.clicked.connect(self.stopthread)
+		self.CloseButton.clicked.connect(self.close_monitor)
                 input_pins=ft232h.input_pins([0,1,2,3,4,5,6,7])
                 for x in range(0,8):
                         if(input_pins[x]):
