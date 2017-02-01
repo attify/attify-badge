@@ -96,12 +96,17 @@ class UART_ConsoleReadThread(QtCore.QThread):
 		self.terminate()
 
 	def run(self):
-		while 1:
-			if ser.in_waiting > 0:
-				self.string=ser.read_all()
-				self.emit(SIGNAL('update_console(QString)'), QtCore.QString(self.string))
+		try:
+			while 1:
+				if(ser.inWaiting):
+					self.string=ser.read_all()
+					self.emit(SIGNAL('update_console(QString)'), QtCore.QString(self.string))
+		except Exception as e:
+			print("[*] Exception : "+str(e))
+			os.kill(os.getpid(),10)
 
 ser=serial.Serial()
+ser.timeout=1
 connection_flag=0
 class BadgeMain(Ui_MainWindow):
 	def __init__(self,dialog):
@@ -195,10 +200,11 @@ class BadgeMain(Ui_MainWindow):
 				print("[*] UART_Connect executed Successfully ")
 #				self.textEdit_UartConsole.append("[*] Connected to device on port <b>"+ser_port+"</b>")
 #				self.textEdit_UartConsole.append("[*] -----------------------------------------------------------------------------------------------------------")
-#				self.pushButton_Connect.setText("Disconnect")
+				self.pushButton_Connect.setText("Disconnect")
 				print("[*] Serial port opened ")
-				print("[*] Starting UARTConsoleReadThread ")
-				self.thread.start()
+				if(ser.isOpen()):
+					print("[*] Starting UARTConsoleReadThread ")
+					self.thread.start()
 			else:
 				print("[*] Stopping UART_ConsoleReadThread ")
 				self.thread.close()
@@ -211,7 +217,7 @@ class BadgeMain(Ui_MainWindow):
 			print("[*] UART_Connect Failed ->"+str(e))
 			self.textEdit_UartConsole.append("[*] Connection Failed ")
 		return
-	
+
 
 	def UART_read(self, QString):
 		self.textEdit_UartConsole.insertPlainText(str(QString))
@@ -226,7 +232,8 @@ class BadgeMain(Ui_MainWindow):
 		command=self.lineEdit_UartInput.text()
 		if(command=="clear"):
 			self.textEdit_UartConsole.clear()
-		if(str(self.comboBox_Ender.currentText())=="No line ending"):
+			command=""
+		elif(str(self.comboBox_Ender.currentText())=="No line ending"):
 			terminator=""
 		elif(str(self.comboBox_Ender.currentText())=="Carriage Return"):
 			terminator="\r"
