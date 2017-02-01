@@ -31,6 +31,8 @@ I'll make a installer for the tool soon.
   subprocess.popen and using communicate() to display the output
   This Should get fixed by today ^.
 
+- The UART thread hangs some times due to a fcntl bug, working on it.
+
 #### Updating the code
 	Till now the code has been written in a pretty sequential manner, I kept
 	adding stuff as I went. I plan to take a break before starting working on
