@@ -135,49 +135,36 @@ class BadgeMain(Ui_MainWindow):
 		self.checkBox_d7.clicked.connect(self.GPIO_d7_Handler)
 		self.InputMonitorButton.clicked.connect(self.GPIO_StartMonitor)
 		#-----------------------SPI--------------------------------
-		self.SPI_RunButton.clicked.connect(self.SPI_Preset_Operations)
-		self.SPI_CustomCmd.returnPressed.connect(self.SPI_CustomOperation)
+		self.SPI_RunButton.clicked.connect(self.SPI_RunCmds)
+		# QProcess object for external app
+		self.SPI_process = QtCore.QProcess()
+		# QProcess emits `readyRead` when there is data to be read
+		self.SPI_process.readyRead.connect(self.SPI_dataReady)
 		#---------------------------------------------------------
 
 
+	def SPI_dataReady(self):
+		#
+		print("[*] SPI_ DataReadyExecuting ")
+		cursor=self.SPI_Console.textCursor()
+		cursor.movePosition(cursor.End)
+		cursor.insertText(str(self.SPI_process.readAll()))
+		self.SPI_Console.ensureCursorVisible()
 
-	def SPI_Preset_Operations(self):
-		#Runs the operation specified in the combo box in the SPI Tab
-		#Remember to remove last line of ouput from Find Chip
-		#It just says no operations specified
-		print("[*] SPI_Preset_Operations ")
+
+
+	def SPI_RunCmds(self):
+		print("[*] SPI_RunCmds Executing ")
+		filepath=str(self.SPI_FilePath.text())
 		cmd=str(self.SPI_OperationComboBox.currentText()).strip()
 		if cmd=="Find Chip":
-			print("	[*] SPI -> Find Chip ")
-			retvalue = os.popen("flashrom -p ft2232_spi:type=232H ").readlines()
-			for item in retvalue:
-				self.SPI_Console.append(item.replace("\n"," "))
-
+			self.SPI_process.start('flashrom',['-p','ft2232_spi:type=232H'])
 		elif cmd=="Read":
-                        print(" [*] SPI -> Read ")
-			filepath=str(self.SPI_FilePath.text())
-                        retvalue = os.popen("flashrom -p ft2232_spi:type=232H -r "+filepath).readlines()
-                        for item in retvalue:
-                                self.SPI_Console.append(item.replace("\n"," "))
-
+			self.SPI_process.start('flashrom',['-p','ft2232_spi:type=232H','-r',filepath])
 		elif cmd=="Write":
-                        print(" [*] SPI -> Write")
-                        filepath=str(self.SPI_FilePath.text())
-                        retvalue = os.popen("flashrom -p ft2232_spi:type=232H -w "+filepath).readlines()
-                        for item in retvalue:
-                                self.SPI_Console.append(item.replace("\n"," "))
-
+			self.SPI_process.start('flashrom',['-p','ft2232_spi:type=232H','-w',filepath])
 		elif cmd=="Erase":
-                        print(" [*] SPI -> Erase ")
-                        filepath=str(self.SPI_FilePath.text())
-                        retvalue = os.popen("flashrom -p ft2232_spi:type=232H --erase").readlines()
-                        for item in retvalue:
-                                self.SPI_Console.append(item.replace("\n"," "))
-
-	def SPI_CustomOperation(self):
-		##	NOT
-		##	IMPLEMENTED
-		print("[*] SPI_CustomOperation Invoked ")
+			self.SPI_process.start('flashrom',['-p','ft2232_spi:type=232H','--erase',filepath])
 
 	def GPIO_StartMonitor(self):
         	if self.InputMonitor is None:
