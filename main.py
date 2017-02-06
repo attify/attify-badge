@@ -23,6 +23,20 @@ def UART_getport():
 				result.append(os.path.join(root, name))
 	return result
 
+def JTAG_GetCFG():
+        print("[*] UART_getport invoked ")
+        path="/usr/local/share/openocd/scripts/target/"
+        pattern="*.cfg"
+        result=[]
+        for root, dirs, files in os.walk(path):
+                for name in files:
+                        if fnmatch.fnmatch(name, pattern):
+                                result.append(os.path.join(root, name))
+	result.sort()
+        return result
+
+
+
 def setupGPIO():
 	global ft232h
 	if(ft232h==0):
@@ -140,22 +154,46 @@ class BadgeMain(Ui_MainWindow):
 		self.SPI_process = QtCore.QProcess()
 		# QProcess emits `readyRead` when there is data to be read
 		self.SPI_process.readyRead.connect(self.SPI_dataReady)
-		#---------------------------------------------------------
-
+		#-----------------------JTAG-------------------------------
+		res=JTAG_GetCFG()
+		final=[]
+		for x in res:
+			x=x.replace("/usr/local/share/openocd/scripts/target/"," ")
+			final.append(x)
+		self.comboBox_JTAGcfg.addItems(final)
+		self.pushButton_startOCDServer.clicked.connect(self.JTAG_startOCD)
+		self.OCD_process=QtCore.QProcess()
+		self.OCD_process.readyRead.connect(self.JTAG_dataReady)
+		#----------------------------------------------------------
+	def JTAG_dataReady(self):
+                print("[*] JTAG_DataReadyExecuting ")
+                cursor=self.OCD_Console.textCursor()
+                cursor.movePosition(cursor.End)
+                cursor.insertText(str(self.OCD_process.readAll()))
+                self.OCD_Console.ensureCursorVisible()
 
 	def SPI_dataReady(self):
 		#
-		print("[*] SPI_ DataReadyExecuting ")
+		print("[*] SPI_DataReadyExecuting ")
 		cursor=self.SPI_Console.textCursor()
 		cursor.movePosition(cursor.End)
 		cursor.insertText(str(self.SPI_process.readAll()))
 		self.SPI_Console.ensureCursorVisible()
 
+	def JTAG_startOCD(self):
+		print("[*] StartOCD executing ")
+		cfg=self.comboBox_JTAGcfg.currentText()
+		self.OCD_process.start('openocd',['-c','\"telnet_port 4444\"','-f','badge.cgf','-f',cfg])
+		string='openocd -c \"telnet_port 4444\" -f badge.cfg -f '+self.comboBox_JTAGcfg.currentText()
+		print(string)
+		print(self.OCD_process.pid())
 
 
 	def SPI_RunCmds(self):
 		print("[*] SPI_RunCmds Executing ")
-		filepath=str(self.SPI_FilePath.text())
+		self.SPI_Console.append("----------------------------------------------------------------\n")
+		#filepath=str(self.SPI_FilePath.text())
+		filepath="../../new.bin"
 		cmd=str(self.SPI_OperationComboBox.currentText()).strip()
 		if cmd=="Find Chip":
 			self.SPI_process.start('flashrom',['-p','ft2232_spi:type=232H'])
@@ -185,8 +223,6 @@ class BadgeMain(Ui_MainWindow):
 				ser.open()
 				self.lineEdit_UartInput.enabledChange(True)
 				print("[*] UART_Connect executed Successfully ")
-#				self.textEdit_UartConsole.append("[*] Connected to device on port <b>"+ser_port+"</b>")
-#				self.textEdit_UartConsole.append("[*] -----------------------------------------------------------------------------------------------------------")
 				self.pushButton_Connect.setText("Disconnect")
 				print("[*] Serial port opened ")
 				if(ser.isOpen()):
@@ -228,10 +264,7 @@ class BadgeMain(Ui_MainWindow):
 			terminator="\n"
 		elif(str(self.comboBox_Ender.currentText())=="Both CR + NL"):
 			terminator="\r\n"
-#		if(len(command)>0):
-#			self.textEdit_UartConsole.append(command)
 		ser.write(str((command+terminator)).encode())
-		sleep(0.5)
 		ser.write(terminator.encode())
 		self.lineEdit_UartInput.setText("")
 
