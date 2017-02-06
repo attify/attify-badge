@@ -26,13 +26,6 @@ I'll make a installer for the tool soon.
   this is a hardware issue which will be resolved in the next version of
   the badge
 
-- The SPI tab shows output only after the process has completed, which might
-  take too long, should get fixed by changing the os.popen() with a
-  subprocess.popen and using communicate() to display the output
-  This Should get fixed by today ^.
-
-- The UART thread hangs some times due to a fcntl bug, working on it.
-
 #### Updating the code
 	Till now the code has been written in a pretty sequential manner, I kept
 	adding stuff as I went. I plan to take a break before starting working on
