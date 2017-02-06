@@ -192,8 +192,7 @@ class BadgeMain(Ui_MainWindow):
 	def SPI_RunCmds(self):
 		print("[*] SPI_RunCmds Executing ")
 		self.SPI_Console.append("----------------------------------------------------------------\n")
-		#filepath=str(self.SPI_FilePath.text())
-		filepath="../../new.bin"
+		filepath=str(self.SPI_FilePath.text())
 		cmd=str(self.SPI_OperationComboBox.currentText()).strip()
 		if cmd=="Find Chip":
 			self.SPI_process.start('flashrom',['-p','ft2232_spi:type=232H'])
