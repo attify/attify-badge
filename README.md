@@ -13,11 +13,11 @@ I'll make a installer for the tool soon.
 - UART
 - GPIO - output, input
 - SPI  - preset commands ( read,write,erase,find )
+- JTAG - OpenOCD Server
 
 ###Not Implemented :
-- SPI  - custon commands ( allow user to write his own flashrom commands )
 - I2C
-- JTAG
+- JTAG  ( New window which allos direct firmware dumping )
 
 
 ###Bugs :
