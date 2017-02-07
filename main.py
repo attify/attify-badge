@@ -1,7 +1,8 @@
+import subprocess
 from PyQt4 import QtCore, QtGui
 from PyQt4.QtCore import SIGNAL
-from Badge import Ui_MainWindow
-from gpioinput import Ui_Form
+from UI.Badge import Ui_MainWindow
+from UI.gpioinput import Ui_Form
 import Adafruit_GPIO as GPIO
 import Adafruit_GPIO.FT232H as FT232H
 import os
@@ -183,11 +184,11 @@ class BadgeMain(Ui_MainWindow):
 	def JTAG_startOCD(self):
 		print("[*] StartOCD executing ")
 		cfg=self.comboBox_JTAGcfg.currentText()
-		self.OCD_process.start('openocd',['-c','\"telnet_port 4444\"','-f','badge.cgf','-f',cfg])
-		string='openocd -c \"telnet_port 4444\" -f badge.cfg -f '+self.comboBox_JTAGcfg.currentText()
-		print(string)
-		print(self.OCD_process.pid())
-
+		cfg=str(cfg).strip()
+		list=['-c','telnet_port 4444','-f','/home/txjoe/attify-code/attify-badge/badge.cfg','-f','/home/txjoe/attify-code/attify-badge/'+cfg]
+		print(list)
+		self.OCD_process.execute('openocd',list)
+		#subprocess.call(list)
 
 	def SPI_RunCmds(self):
 		print("[*] SPI_RunCmds Executing ")
@@ -393,3 +394,5 @@ if __name__=="__main__":
 	prog=BadgeMain(dialog)
 	dialog.show()
 	sys.exit(app.exec_())
+
+
