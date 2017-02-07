@@ -17,7 +17,7 @@ I'll make a installer for the tool soon.
 
 ###Not Implemented :
 - I2C
-- JTAG  ( New window which allos direct firmware dumping )
+- JTAG  ( New window which allows direct firmware dumping )
 
 
 ###Bugs :
@@ -26,17 +26,7 @@ I'll make a installer for the tool soon.
   this is a hardware issue which will be resolved in the next version of
   the badge
 
-#### Updating the code
-	Till now the code has been written in a pretty sequential manner, I kept
-	adding stuff as I went. I plan to take a break before starting working on
-	I2C and JTAG and restructuring the code to make it more modular.
-	I'm planning to add seperate classes for each of the protocols, which would
-	make the code easier to read, and also solve a couple of problems related to 
-	intializing the interfaces. The problems are caused because when main.py runs
-	Each interface tries to intialize itself and obviously not all of them are 
-	able to claim the FTDI devices, I solved this problem with a hacked-up
-	sollution, but there might be more problems while trying to write the code 
-	for JTAG and I2C. This is kinda important.
+- Messed up install.sh, should be fixed by tomorrow! 
 
 ###Install: 
 chmod +x install.sh
