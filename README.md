@@ -28,8 +28,13 @@ I'll make a installer for the tool soon.
 
 - Messed up install.sh, should be fixed by tomorrow! 
 
-###Install: 
 
+###Install
+
+- chmod +x install.sh
+- ./install.sh
+
+###Manual Install ( in case of weird errors ): 
 
 #### Installing Git
 `sudo apt-get install git`
