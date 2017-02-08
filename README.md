@@ -34,7 +34,7 @@ I'll make a installer for the tool soon.
 - chmod +x install.sh
 - ./install.sh
 
-- ###Manual Install ( in case of weird errors ): 
+###Manual Install ( in case of weird errors ): 
 
 #### Installing Git
 `sudo apt-get install git`
