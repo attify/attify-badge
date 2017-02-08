@@ -4,7 +4,7 @@ RED='\033[0:31m'
 
 
 echo "[*] Updating apt"
-apt-get update
+sudo apt-get update
 
 echo "[*] Getting Pyserial"
 sudo apt-get install python-serial
