@@ -36,10 +36,10 @@ I'll make a installer for the tool soon.
 
 ###Manual Install ( in case of weird errors ): 
 
-#### Installing Git
+- Installing Git
 `sudo apt-get install git`
 
-- #### Getting libftdi
+- Getting libftdi
 
 `sudo apt-get update`
 
@@ -61,7 +61,7 @@ I'll make a installer for the tool soon.
 
 `sudo make install`
 
-- #### Getting Adafruit libraries
+- Getting Adafruit libraries
 
 Clone from 
 `https://github.com/adafruit/Adafruit_Python_GPIO`
@@ -73,15 +73,15 @@ or
 `cd Adafruit_Python_GPIO-master/
 sudo python setup.py`
 
-- #### Getting pyserial
+- Getting pyserial
 
 `sudo apt-get install python-serial`
 
-- #### Get PyQt
+- Get PyQt
 
 `sudo apt-get install python-qt4`
 
 
-- #### Run 
+- Run 
 Run main.py from the attify-badge directory ( with sudo )!
 `sudo python main.py'
