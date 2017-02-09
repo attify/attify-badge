@@ -1,56 +1,82 @@
 #!/bin/bash
+echo
+echo "      ___  _   _   _  __            "
+echo "     / _ \| | | | (_)/ _|           "
+echo "    / /_\ \ |_| |_ _| |_ _   _      "
+echo "    |  _  | __| __| |  _| | | |     "
+echo "    | | | | |_| |_| | | | |_| |     "
+echo "    \_| |_/\__|\__|_|_|  \__, |     "
+echo "                          __/ |     "
+echo "                         |___/      "
+echo
+echo "[*] Attify Badge Tool v1.0 Installer" 
 
-RED='\033[0:31m'
-
-
+sleep 1
+echo
 echo "[*] Updating apt"
-sudo apt-get update
-
+echo
+apt-get update
+echo
 echo "[*] Getting Pyserial"
+echo
 sudo apt-get install python-serial
-
+echo
 echo "[*] Getting PyQt "
+echo
 sudo apt-get install python-qt4
-
+echo
 echo "[*] Getting git"
+echo
 sudo apt-get install git
-
+echo
 echo "[*] Getting Unzip "
 sudo apt-get install unzip
-
+echo
 echo "[*] Cloning Adafruit's FT232H Libraries"
 git clone https://www.github.com/adafruit/Adafruit_Python_GPIO
-
+echo
 echo "[*] Installing Adafruit's FT232H Libraries "
 cd Adafruit_Python_GPIO/
 sudo python setup.py install
-
+echo
 echo "[*] Getting LibFTDI "
 echo "[*] Installing dependencies "
 sudo apt-get install build-essential libusb-1.0-0-dev swig cmake python-dev libconfuse-dev libboost-all-dev
-
-echo "[*] Downloading Libraries " 
+echo
+echo "[*] Downloading Libraries "
 wget http://www.intra2net.com/en/developer/libftdi/download/libftdi1-1.2.tar.bz2
-
+echo
 echo "[*] Decompressing Libraries "
 tar xvf libftdi1-1.2.tar.bz2
 cd libftdi1-1.2
 mkdir build
 cd build
-
+echo
 echo "[*] Installing Libraries "
 cmake -DCMAKE_INSTALL_PREFIX="/usr/" ../
 make
 sudo make install
 
 cd ../../
-
+echo
 echo "[*] Removing Files "
 sudo rm -r libftdi1-1.2.tar.bz2
-
+echo
 echo "[*] Installation Complete "
-
+echo
 echo "[*] To run the program run -> sudo python main.py "
-echo "[*] May the force be with you"
+echo
+echo 
+echo  " < Happy Hacking !  >              "
+echo  "   ----------------             "
+echo  "        o   ^__^                "
+echo  "         o  (oo)\_______        "
+echo  "            (__)\       )\/\    "
+echo  "                ||----w |       "
+echo  "                ||     ||       "
+echo
+echo
+
+
 
 
