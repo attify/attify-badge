@@ -113,7 +113,7 @@ class UART_ConsoleReadThread(QtCore.QThread):
 	def run(self):
 		try:
 			while 1:
-				if(ser.inWaiting):
+				if(ser.in_waiting):
 					self.string=ser.read_all()
 					self.emit(SIGNAL('update_console(QString)'), QtCore.QString(self.string))
 		except Exception as e:
@@ -121,7 +121,7 @@ class UART_ConsoleReadThread(QtCore.QThread):
 			os.kill(os.getpid(),10)
 
 ser=serial.Serial()
-ser.timeout=1
+#ser.timeout=1
 connection_flag=0
 class BadgeMain(Ui_MainWindow):
 	def __init__(self,dialog):
