@@ -21,6 +21,14 @@ echo "[*] Getting Pyserial"
 echo
 sudo apt-get install python-serial
 echo
+echo "[*] Installing Flashrom "
+echo
+sudo apt-get install flashrom
+echo
+echo "[*] Installing OpenOCD "
+echo
+sudo apt-get install openocd
+echo
 echo "[*] Getting PyQt "
 echo
 sudo apt-get install python-qt4
@@ -61,6 +69,7 @@ cd ../../
 echo
 echo "[*] Removing Files "
 sudo rm -r libftdi1-1.2.tar.bz2
+sudo rm -r Adafruit_Python_GPIO/
 echo
 echo "[*] Installation Complete "
 echo
