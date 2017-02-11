@@ -12,10 +12,11 @@ I'll make a installer for the tool soon.
 ###Implemented :
 - UART
 - GPIO - output, input
-- SPI  - preset commands ( read,write,erase,find )
+- SPI  
+- I2c - search
 
 ###Not Implemented :
-- I2C
+- I2C - (read, write, erase)
 - JTAG  ( New window which allows direct firmware dumping )
 
 
@@ -24,6 +25,9 @@ I'll make a installer for the tool soon.
 - In the GPIO monitor window, the floating states are detected as high.
   this is a hardware issue which will be resolved in the next version of
   the badge
+
+- Not exactly a bug, but the UI hangs for a few seconds while scanning the
+  I2C devices, I'll implement a thread to search for I2C devices.
 
 
 ###Note :
