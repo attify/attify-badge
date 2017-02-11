@@ -195,6 +195,7 @@ class BadgeMain(Ui_MainWindow):
 		if(address>=1000):
 			count=address-1000
                 	self.textEdit_I2cConsole.append("[*] Found "+str(count)+" I2C Devices ")
+			del(self.I2CScanThread)
 		else:
 			self.textEdit_I2cConsole.append("[*] Found I2C device at address 0x{0:02X}".format(address))
 
