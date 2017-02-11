@@ -24,6 +24,7 @@ class BadgeMain(Ui_MainWindow):
 		self.SPI_process = QtCore.QProcess()
 		self.SPI_process.readyRead.connect(self.SPI_dataReady)
 		self.ft232h=0
+		self.gpio_init=0
  	        self.checkBox_d0.clicked.connect(lambda: self.GPIO_handler(0))
                 self.checkBox_d1.clicked.connect(lambda: self.GPIO_handler(1))
                 self.checkBox_d2.clicked.connect(lambda: self.GPIO_handler(2))
@@ -34,7 +35,7 @@ class BadgeMain(Ui_MainWindow):
                 self.checkBox_d7.clicked.connect(lambda: self.GPIO_handler(7))
 		self.InputMonitor=None
                 self.pushButton_GpioStartInputMonitor.clicked.connect(self.GPIO_startmonitor)
-
+		self.pushButton_I2cRun.clicked.connect(self.I2C_run)
 
 	def UART_getports(self):
 		#Function checks for connected usb devices
@@ -126,30 +127,38 @@ class BadgeMain(Ui_MainWindow):
 		elif cmd=="Erase":
 			self.SPI_process.start('flashrom',['-p','ft2232_spi:type=232H','--erase',filepath])
 
-	def GPIO_setup(self):
+	def FTDI_setup(self):
         	if(self.ft232h==0):
                 	try:
-				print("[*] Setting up GPIO ")
+				print("[*] Enabling Adafruit FTDI ")
                         	FT232H.use_FT232H()
                         	self.ft232h = FT232H.FT232H()
-				#setting everything as out
-				#because leaving then un-
-				#initialized confuses the
-				#Input Monitor
-	        		self.ft232h.setup(0, GPIO.OUT)
-        			self.ft232h.setup(1, GPIO.OUT)
-        			self.ft232h.setup(2, GPIO.OUT)
-        			self.ft232h.setup(3, GPIO.OUT)
-        			self.ft232h.setup(4, GPIO.OUT)
-        			self.ft232h.setup(5, GPIO.OUT)
-        			self.ft232h.setup(6, GPIO.OUT)
-       			 	self.ft232h.setup(7, GPIO.OUT)
 
-                	except Exception as e:
-                        	print("[*] Error : "+str(e))
-                        	exit()
+			except Exception as e:
+                                print("[*] Error : "+str(e))
+
+
+	def GPIO_setup(self):
+		if(self.gpio_init==0):
+			print("[*] Setting up GPIO pins")
+			#setting everything as out
+			#because leaving then un-
+			#initialized confuses the
+			#Input Monitor
+	        	self.ft232h.setup(0, GPIO.OUT)
+        		self.ft232h.setup(1, GPIO.OUT)
+        		self.ft232h.setup(2, GPIO.OUT)
+        		self.ft232h.setup(3, GPIO.OUT)
+        		self.ft232h.setup(4, GPIO.OUT)
+        		self.ft232h.setup(5, GPIO.OUT)
+        		self.ft232h.setup(6, GPIO.OUT)
+       			self.ft232h.setup(7, GPIO.OUT)
+			self.gpio_init=1
+
+
 
 	def GPIO_handler(self,pin):
+		self.FTDI_setup()
 		self.GPIO_setup()
 		pin_combo={0:self.comboBox_d0,1:self.comboBox_d1,2:self.comboBox_d2,3:self.comboBox_d3,4:self.comboBox_d4,5:self.comboBox_d5,6:self.comboBox_d6,7:self.comboBox_d7}
 		pin_check={0:self.checkBox_d0,1:self.checkBox_d1,2:self.checkBox_d2,3:self.checkBox_d3,4:self.checkBox_d4,5:self.checkBox_d5,6:self.checkBox_d6,7:self.checkBox_d7}
@@ -171,6 +180,21 @@ class BadgeMain(Ui_MainWindow):
 		if self.InputMonitor is None:
 			self.InputMonitor=IPMonitor(self.ft232h)
 		self.InputMonitor.show()
+
+	def I2C_run(self):
+                self.textEdit_I2cConsole.append("[*] Scanning all I2C addresses. ")
+		count=0
+		print(count)
+		self.FTDI_setup()
+		for address in range(127):
+        		if address <= 7 or address >= 120:
+                		continue
+        		i2c = FT232H.I2CDevice(self.ft232h, address)
+        		if i2c.ping():
+				count=count+1
+                		self.textEdit_I2cConsole.append("Found I2C device at address 0x{0:02X}".format(address))
+		self.textEdit_I2cConsole.append("[*] Found "+str(count)+" devices. ")
+
 
 
 if __name__=="__main__":
