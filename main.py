@@ -5,7 +5,7 @@ from PyQt4 import QtCore, QtGui
 from PyQt4.QtCore import SIGNAL
 from UI.Badge import Ui_MainWindow
 from src.GpioInputMonitor import IPMonitor
-from src.Threads import UART_ConsoleReadThread
+from src.Threads import UART_ConsoleReadThread,I2CScanner
 import Adafruit_GPIO as GPIO
 import Adafruit_GPIO.FT232H as FT232H
 import serial,os,fnmatch,sys,subprocess
@@ -182,18 +182,21 @@ class BadgeMain(Ui_MainWindow):
 		self.InputMonitor.show()
 
 	def I2C_run(self):
-                self.textEdit_I2cConsole.append("[*] Scanning all I2C addresses. ")
-		count=0
-		print(count)
 		self.FTDI_setup()
-		for address in range(127):
-        		if address <= 7 or address >= 120:
-                		continue
-        		i2c = FT232H.I2CDevice(self.ft232h, address)
-        		if i2c.ping():
-				count=count+1
-                		self.textEdit_I2cConsole.append("Found I2C device at address 0x{0:02X}".format(address))
-		self.textEdit_I2cConsole.append("[*] Found "+str(count)+" devices. ")
+                self.textEdit_I2cConsole.append("[*] Scanning all I2C addresses. ")
+		self.I2CScanThread=I2CScanner(self.ft232h)
+		self.I2CScanThread.start()
+                QtCore.QObject.connect(self.I2CScanThread,QtCore.SIGNAL("I2c_device_found(int)"), self.I2C_adddevice)
+
+	def I2C_adddevice(self,address):
+		#When the scan is complete, the I2CScanner Thread returns the number of devices found added to 1000
+		#So when this function receives a value greater than or equal to 1000 , it knows that the scan is
+		#complete and the number of devices found.
+		if(address>=1000):
+			count=address-1000
+                	self.textEdit_I2cConsole.append("[*] Found "+str(count)+" I2C Devices ")
+		else:
+			self.textEdit_I2cConsole.append("[*] Found I2C device at address 0x{0:02X}".format(address))
 
 
 
