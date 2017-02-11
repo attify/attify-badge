@@ -13,19 +13,13 @@ class IPMonitor(QtGui.QWidget, Ui_Form):
                 PinStates=[]
 	        self.PinMappings={0:self.D0_Status,1:self.D1_Status, 2:self.D2_Status, 3:self.D3_Status, 4:self.D4_Status, 5:self.D5_Status, 6:self.D6_Status, 7:self.D7_Status}
 		print("[*] Input monitor Initialized ")
-                self.CloseButton.clicked.connect(self.close)
                 self.StartMonitor.clicked.connect(self.UpdatePinStates)
-                self.CloseButton.clicked.connect(self.stopthread)
-		self.CloseButton.clicked.connect(self.close_monitor)
                 input_pins=ft232h.input_pins([0,1,2,3,4,5,6,7])
                 for x in range(0,8):
                         if(input_pins[x]):
                                 pin_set.append(x)
                 print("[*] Pins Set as input "+str(pin_set))
                 self.pin_set=pin_set
-
-	def stopthread(self):
-		self.thread.close()
 
 	def UpdatePinStates(self):
 		print("[*] Thread Starter ")
@@ -40,5 +34,12 @@ class IPMonitor(QtGui.QWidget, Ui_Form):
                         self.PinMappings[pin].setText("State : LOW ")
 
 	def close_monitor(self):
-		self.close()
+		try:
+			print("[*] Closing Monitor ")
+			#self.thread.close()
+			#del(self.thread)
+			#self.destroy()
+		except Exception as e:
+			print("[*] InputMonitor Exception : "+str(e))
+
 
