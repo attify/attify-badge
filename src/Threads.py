@@ -50,3 +50,28 @@ class InputMonitorThread(QtCore.QThread):
                                 self.emit(SIGNAL('update_states(int,int)'), state, pin)
 
 
+class I2CScanner(QtCore.QThread):
+	def __init__(self,ft232h):
+		self.ft232h=ft232h
+		self.count=0
+		print("[*] Inititalizing I2C Scanner Thread ")
+		super(I2CScanner,self).__init__()
+
+        def __del__(self):
+                self.wait()
+
+        def close(self):
+                self.terminate()
+
+	def run(self):
+		for address in range(127):
+	        	if address <= 7 or address >= 120:
+	        	        continue
+		        i2c = FT232H.I2CDevice(self.ft232h, address)
+		        if i2c.ping():
+				self.count=self.count+1
+       		        	self.emit(SIGNAL('I2c_device_found(int)'),address)
+                self.emit(SIGNAL('I2c_device_found(int)'),self.count+1000)
+		print("[*] terminating ")
+		self.terminate()
+
