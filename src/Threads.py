@@ -72,6 +72,6 @@ class I2CScanner(QtCore.QThread):
 				self.count=self.count+1
        		        	self.emit(SIGNAL('I2c_device_found(int)'),address)
                 self.emit(SIGNAL('I2c_device_found(int)'),self.count+1000)
-		print("[*] terminating ")
+		print("[*] Terminating I2C Scanner Thread ")
 		self.terminate()
 
