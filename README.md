@@ -13,7 +13,6 @@ I'll make a installer for the tool soon.
 - UART
 - GPIO - output, input
 - SPI  - preset commands ( read,write,erase,find )
-- JTAG - OpenOCD Server
 
 ###Not Implemented :
 - I2C
@@ -26,7 +25,12 @@ I'll make a installer for the tool soon.
   this is a hardware issue which will be resolved in the next version of
   the badge
 
-- Messed up install.sh, should be fixed by tomorrow! 
+
+###Note :
+
+I did the overhaul I was planning to do, re-implemented all the functionality
+in a more readable format, divided main.py into sub files. Re-did the UI to
+make it more cleaner. Added a refresh devices button to the UART page. Phew!
 
 
 ###Install
