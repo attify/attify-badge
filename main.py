@@ -73,6 +73,7 @@ class BadgeMain(Ui_MainWindow):
 				print("[*] Stopping UART_ConsoleReadThread ")
 				self.uartReadThread.close()
 				self.ser.close()
+				del(self.uartReadThread)
                                 self.lineEdit_UartInput.enabledChange(False)
                                 self.pushButton_UartConnect.setText("Connect")
 				print("[*] Serial port closed ")
