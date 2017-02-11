@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>321</width>
-    <height>461</height>
+    <height>427</height>
    </rect>
   </property>
   <property name="palette">
@@ -858,19 +858,6 @@
    <property name="frameShadow">
     <enum>QFrame::Sunken</enum>
    </property>
-   <widget class="QPushButton" name="CloseButton">
-    <property name="geometry">
-     <rect>
-      <x>180</x>
-      <y>390</y>
-      <width>101</width>
-      <height>27</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Close</string>
-    </property>
-   </widget>
    <widget class="QLabel" name="label_1">
     <property name="geometry">
      <rect>
