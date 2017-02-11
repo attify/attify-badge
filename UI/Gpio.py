@@ -25,7 +25,7 @@ except AttributeError:
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName(_fromUtf8("Form"))
-        Form.resize(321, 461)
+        Form.resize(321, 427)
         palette = QtGui.QPalette()
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
@@ -305,9 +305,6 @@ class Ui_Form(object):
         self.frame.setFrameShape(QtGui.QFrame.StyledPanel)
         self.frame.setFrameShadow(QtGui.QFrame.Sunken)
         self.frame.setObjectName(_fromUtf8("frame"))
-        self.CloseButton = QtGui.QPushButton(self.frame)
-        self.CloseButton.setGeometry(QtCore.QRect(180, 390, 101, 27))
-        self.CloseButton.setObjectName(_fromUtf8("CloseButton"))
         self.label_1 = QtGui.QLabel(self.frame)
         self.label_1.setGeometry(QtCore.QRect(30, 30, 68, 17))
         self.label_1.setObjectName(_fromUtf8("label_1"))
@@ -370,7 +367,6 @@ class Ui_Form(object):
 
     def retranslateUi(self, Form):
         Form.setWindowTitle(_translate("Form", "GPIO Input Monitor", None))
-        self.CloseButton.setText(_translate("Form", "Close", None))
         self.label_1.setText(_translate("Form", "   Pin D0", None))
         self.label_2.setText(_translate("Form", "   Pin D1", None))
         self.label_3.setText(_translate("Form", "   Pin D2", None))
