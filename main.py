@@ -41,8 +41,7 @@ class BadgeMain(Ui_MainWindow):
 		######################  I2C  #######################
 		self.pushButton_I2cRun.clicked.connect(self.I2C_run)
 		self.pushButton_JtagStartServer.clicked.connect(self.JTAG_startserver)
-                self.JTAG_ServerProcess = QtCore.QProcess()
-                self.JTAG_ServerProcess.readyRead.connect(self.JTAG_dataReady)
+                self.JTAG_getcfg()
 
 	def UART_getports(self):
 		#Function checks for connected usb devices
@@ -207,19 +206,30 @@ class BadgeMain(Ui_MainWindow):
 		else:
 			self.textEdit_I2cConsole.append("[*] Found I2C device at address 0x{0:02X}".format(address))
 
-        def JTAG_dataReady(self):
-                cursor=self.textEdit_JtagConsole.textCursor()
-                cursor.movePosition(cursor.End)
-                cursor.insertText(str(self.Jtag_process.readAll()))
-                self.textEdit_JtagConsole.ensureCursorVisible()
+        def JTAG_getcfg(self):
+                #Function checks for .cfg files in the 'cfg/' directory
+                print("[*] JTAG_getcfg invoked ")
+                path="cfg/"
+                pattern="*cfg"
+                result=[]
+                for root, dirs, files in os.walk(path):
+                        for name in files:
+                                if fnmatch.fnmatch(name, pattern):
+                                        result.append(os.path.join(root, name))
+		result.sort()
+		cfg_list=[]
+		for iterator in result:
+			cfg_list.append(iterator.replace("cfg/",""))
+                self.comboBox_JtagSelectDevice.addItems(cfg_list)
 
         def JTAG_startserver(self):
 		if(self.pushButton_JtagStartServer.isChecked()):
                 	print("[*] JTAG_StartServer Executing ")
                 	self.textEdit_JtagConsole.append("[*] Initializing OpenOCD Server in the background \n")
 			self.pushButton_JtagStartServer.setText("Stop OpenOCD Server")
-                	filepath=str(self.lineEdit_SpiFilePath.text())
-			self.openocdthread=OpenOCDServerThread("stm32.cfg")
+                	filepath=str(self.comboBox_JtagSelectDevice.currentText())
+			print(filepath)
+			self.openocdthread=OpenOCDServerThread(filepath)
 			self.openocdthread.start()
 		else:
 			print("[*] Stopping OpenOCD Server ")
