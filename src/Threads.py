@@ -2,7 +2,7 @@ import Adafruit_GPIO.FT232H as FT232H
 from PyQt4 import QtCore, QtGui
 from PyQt4.QtCore import SIGNAL
 import serial
-
+import subprocess
 
 
 
@@ -61,6 +61,7 @@ class I2CScanner(QtCore.QThread):
                 self.wait()
 
         def close(self):
+		print("[*] DEBUG : Close ")
                 self.terminate()
 
 	def run(self):
@@ -74,4 +75,21 @@ class I2CScanner(QtCore.QThread):
                 self.emit(SIGNAL('I2c_device_found(int)'),self.count+1000)
 		print("[*] Terminating I2C Scanner Thread ")
 		self.terminate()
+
+class OpenOCDServerThread(QtCore.QThread):
+        def __init__(self,cfg):
+                self.cfg_name=cfg
+                print("[*] Initializing OpenOCD Server Thread ")
+                super(OpenOCDServerThread,self).__init__()
+
+        def __del__(self):
+                self.wait()
+
+        def close(self):
+          	print("[*] Terminating OpenOCD Server Thread
+		self.proc.kill()
+                self.terminate()
+
+        def run(self):
+		self.proc=subprocess.Popen(['openocd','-c','telnet_port 4444','-f','cfg/badge.cfg','-f',"cfg/"+self.cfg_name])
 
