@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'UI/badge.ui'
+# Form implementation generated from reading ui file 'badge.ui'
 #
 # Created by: PyQt4 UI code generator 4.11.4
 #
@@ -538,9 +538,6 @@ class Ui_MainWindow(object):
         self.pushButton_JtagConnect.setGeometry(QtCore.QRect(260, 10, 241, 27))
         self.pushButton_JtagConnect.setCheckable(True)
         self.pushButton_JtagConnect.setObjectName(_fromUtf8("pushButton_JtagConnect"))
-        self.pushButton_JtagSelectElf = QtGui.QPushButton(self.tab_Jtag)
-        self.pushButton_JtagSelectElf.setGeometry(QtCore.QRect(550, 10, 201, 27))
-        self.pushButton_JtagSelectElf.setObjectName(_fromUtf8("pushButton_JtagSelectElf"))
         self.pushButton_JtagRunGdb = QtGui.QPushButton(self.tab_Jtag)
         self.pushButton_JtagRunGdb.setGeometry(QtCore.QRect(550, 40, 201, 27))
         self.pushButton_JtagRunGdb.setCheckable(True)
@@ -555,6 +552,9 @@ class Ui_MainWindow(object):
         self.line_3.setFrameShape(QtGui.QFrame.VLine)
         self.line_3.setFrameShadow(QtGui.QFrame.Sunken)
         self.line_3.setObjectName(_fromUtf8("line_3"))
+        self.lineEdit_JtagElfPath = QtGui.QLineEdit(self.tab_Jtag)
+        self.lineEdit_JtagElfPath.setGeometry(QtCore.QRect(550, 10, 201, 27))
+        self.lineEdit_JtagElfPath.setObjectName(_fromUtf8("lineEdit_JtagElfPath"))
         self.tabWidget.addTab(self.tab_Jtag, _fromUtf8(""))
         self.tab_I2c = QtGui.QWidget()
         self.tab_I2c.setObjectName(_fromUtf8("tab_I2c"))
@@ -851,8 +851,8 @@ class Ui_MainWindow(object):
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_Spi), _translate("MainWindow", "      SPI      ", None))
         self.pushButton_JtagStartServer.setText(_translate("MainWindow", "Start OpenOCD Server", None))
         self.pushButton_JtagConnect.setText(_translate("MainWindow", "Connect to OpenOCD Server", None))
-        self.pushButton_JtagSelectElf.setText(_translate("MainWindow", "Select ELF File", None))
         self.pushButton_JtagRunGdb.setText(_translate("MainWindow", "Run GDB", None))
+        self.lineEdit_JtagElfPath.setPlaceholderText(_translate("MainWindow", "             ELF file location", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_Jtag), _translate("MainWindow", "    JTAG    ", None))
         self.lineEdit_I2cFilePath.setPlaceholderText(_translate("MainWindow", "Enter File Name and Path", None))
         self.comboBox_I2cOperation.setItemText(0, _translate("MainWindow", "Find Chip", None))
