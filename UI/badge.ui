@@ -1618,19 +1618,6 @@
        <bool>true</bool>
       </property>
      </widget>
-     <widget class="QPushButton" name="pushButton_JtagSelectElf">
-      <property name="geometry">
-       <rect>
-        <x>550</x>
-        <y>10</y>
-        <width>201</width>
-        <height>27</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Select ELF File</string>
-      </property>
-     </widget>
      <widget class="QPushButton" name="pushButton_JtagRunGdb">
       <property name="geometry">
        <rect>
@@ -1671,6 +1658,19 @@
       </property>
       <property name="orientation">
        <enum>Qt::Vertical</enum>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit_JtagElfPath">
+      <property name="geometry">
+       <rect>
+        <x>550</x>
+        <y>10</y>
+        <width>201</width>
+        <height>27</height>
+       </rect>
+      </property>
+      <property name="placeholderText">
+       <string>             ELF file location</string>
       </property>
      </widget>
     </widget>
