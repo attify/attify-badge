@@ -111,3 +111,20 @@ class JTAGTelnetThread(QtCore.QThread):
 
 
 
+class JTAGGdbThread(QtCore.QThread):
+        def __init__(self,elf_path):
+                self.elf_path=elf_path
+                print("[*] Initializing JTAG GDB Thread ")
+                super(JTAGGdbThread,self).__init__()
+
+        def __del__(self):
+                self.wait()
+
+        def close(self):
+                print("[*] Terminating JTAG GDB Thread ")
+                self.proc.kill()
+                self.terminate()
+
+        def run(self):
+                self.proc=subprocess.Popen(['x-terminal-emulator','-e','arm-none-eabi-gdb','--eval-command=\"target remote localhost:3333\"',self.elf_path])
+
