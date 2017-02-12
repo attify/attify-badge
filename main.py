@@ -5,7 +5,7 @@ from PyQt4 import QtCore, QtGui
 from PyQt4.QtCore import SIGNAL
 from UI.Badge import Ui_MainWindow
 from src.GpioInputMonitor import IPMonitor
-from src.Threads import UART_ConsoleReadThread,I2CScanner
+from src.Threads import UART_ConsoleReadThread,I2CScanner,OpenOCDServerThread
 import Adafruit_GPIO as GPIO
 import Adafruit_GPIO.FT232H as FT232H
 import serial,os,fnmatch,sys,subprocess
@@ -14,15 +14,18 @@ import serial,os,fnmatch,sys,subprocess
 class BadgeMain(Ui_MainWindow):
         def __init__(self,dialog,parent=None):
                 Ui_MainWindow.__init__(self)
+		######   UART  #########
 		self.ser=serial.Serial()
                 self.setupUi(dialog)
 		self.UART_getports()
 		self.pushButton_UartRefresh.clicked.connect(self.UART_getports)
                 self.pushButton_UartConnect.clicked.connect(self.UART_connect)
 		self.lineEdit_UartInput.returnPressed.connect(self.UART_send)
+		####################  SPI  #########################
 		self.pushButton_SpiRun.clicked.connect(self.SPI_run)
 		self.SPI_process = QtCore.QProcess()
 		self.SPI_process.readyRead.connect(self.SPI_dataReady)
+		###  GPIO ###
 		self.ft232h=0
 		self.gpio_init=0
  	        self.checkBox_d0.clicked.connect(lambda: self.GPIO_handler(0))
@@ -35,7 +38,11 @@ class BadgeMain(Ui_MainWindow):
                 self.checkBox_d7.clicked.connect(lambda: self.GPIO_handler(7))
 		self.InputMonitor=None
                 self.pushButton_GpioStartInputMonitor.clicked.connect(self.GPIO_startmonitor)
+		######################  I2C  #######################
 		self.pushButton_I2cRun.clicked.connect(self.I2C_run)
+		self.pushButton_JtagStartServer.clicked.connect(self.JTAG_startserver)
+                self.JTAG_ServerProcess = QtCore.QProcess()
+                self.JTAG_ServerProcess.readyRead.connect(self.JTAG_dataReady)
 
 	def UART_getports(self):
 		#Function checks for connected usb devices
@@ -199,6 +206,27 @@ class BadgeMain(Ui_MainWindow):
 			del(self.I2CScanThread)
 		else:
 			self.textEdit_I2cConsole.append("[*] Found I2C device at address 0x{0:02X}".format(address))
+
+        def JTAG_dataReady(self):
+                cursor=self.textEdit_JtagConsole.textCursor()
+                cursor.movePosition(cursor.End)
+                cursor.insertText(str(self.Jtag_process.readAll()))
+                self.textEdit_JtagConsole.ensureCursorVisible()
+
+        def JTAG_startserver(self):
+		if(self.pushButton_JtagStartServer.isChecked()):
+                	print("[*] JTAG_StartServer Executing ")
+                	self.textEdit_JtagConsole.append("[*] Initializing OpenOCD Server in the background \n")
+			self.pushButton_JtagStartServer.setText("Stop OpenOCD Server")
+                	filepath=str(self.lineEdit_SpiFilePath.text())
+			self.openocdthread=OpenOCDServerThread("stm32.cfg")
+			self.openocdthread.start()
+		else:
+			print("[*] Stopping OpenOCD Server ")
+                        self.textEdit_JtagConsole.append("[*] Stopping OpenOCD Server \n")
+                        self.pushButton_JtagStartServer.setText("Start OpenOCD Server")
+			self.openocdthread.close()
+			del(self.openocdthread)
 
 
 
