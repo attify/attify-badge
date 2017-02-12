@@ -92,3 +92,22 @@ class OpenOCDServerThread(QtCore.QThread):
         def run(self):
 		self.proc=subprocess.Popen(['openocd','-c','telnet_port 4444','-f','cfg/badge.cfg','-f',"cfg/"+self.cfg_name],stdout=open(os.devnull, 'wb'))
 
+
+class JTAGTelnetThread(QtCore.QThread):
+        def __init__(self):
+                print("[*] Initializing Jtag telnet Thread ")
+                super(JTAGTelnetThread,self).__init__()
+
+        def __del__(self):
+                self.wait()
+
+        def close(self):
+                print("[*] Terminating Jtag Telnet Thread ")
+                self.proc.kill()
+                self.terminate()
+
+        def run(self):
+                self.proc=subprocess.Popen(['x-terminal-emulator','-e','telnet','localhost','4444']) 
+
+
+
