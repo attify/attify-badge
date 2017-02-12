@@ -1614,6 +1614,9 @@
       <property name="text">
        <string>Connect to OpenOCD Server</string>
       </property>
+      <property name="checkable">
+       <bool>true</bool>
+      </property>
      </widget>
      <widget class="QPushButton" name="pushButton_JtagSelectElf">
       <property name="geometry">
