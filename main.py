@@ -5,7 +5,7 @@ from PyQt4 import QtCore, QtGui
 from PyQt4.QtCore import SIGNAL
 from UI.Badge import Ui_MainWindow
 from src.GpioInputMonitor import IPMonitor
-from src.Threads import UART_ConsoleReadThread,I2CScanner,OpenOCDServerThread
+from src.Threads import UART_ConsoleReadThread,I2CScanner,OpenOCDServerThread,JTAGTelnetThread
 import Adafruit_GPIO as GPIO
 import Adafruit_GPIO.FT232H as FT232H
 import serial,os,fnmatch,sys,subprocess
@@ -40,8 +40,10 @@ class BadgeMain(Ui_MainWindow):
                 self.pushButton_GpioStartInputMonitor.clicked.connect(self.GPIO_startmonitor)
 		######################  I2C  #######################
 		self.pushButton_I2cRun.clicked.connect(self.I2C_run)
+		##############################  JTAG  ###############################
 		self.pushButton_JtagStartServer.clicked.connect(self.JTAG_startserver)
                 self.JTAG_getcfg()
+		self.pushButton_JtagConnect.clicked.connect(self.JTAG_telnetconnect)
 
 	def UART_getports(self):
 		#Function checks for connected usb devices
@@ -238,7 +240,13 @@ class BadgeMain(Ui_MainWindow):
 			self.openocdthread.close()
 			del(self.openocdthread)
 
-
+	def JTAG_telnetconnect(self):
+		if(self.pushButton_JtagConnect.isChecked()):
+			self.JtagTelnetThread=JTAGTelnetThread()
+			self.JtagTelnetThread.start()
+		else:
+			self.JtagTelnetThread.close()
+			del(self.JTAG_TelnetThread)
 
 if __name__=="__main__":
         app=QtGui.QApplication(sys.argv)
