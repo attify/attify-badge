@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'badge.ui'
+# Form implementation generated from reading ui file '../UI/badge.ui'
 #
 # Created by: PyQt4 UI code generator 4.11.4
 #
@@ -386,8 +386,8 @@ class Ui_MainWindow(object):
         self.tabWidget.addTab(self.tab_Spi, _fromUtf8(""))
         self.tab_Jtag = QtGui.QWidget()
         self.tab_Jtag.setObjectName(_fromUtf8("tab_Jtag"))
-        self.textEdit = QtGui.QTextEdit(self.tab_Jtag)
-        self.textEdit.setGeometry(QtCore.QRect(10, 90, 741, 381))
+        self.textEdit_JtagConsole = QtGui.QTextEdit(self.tab_Jtag)
+        self.textEdit_JtagConsole.setGeometry(QtCore.QRect(10, 90, 741, 381))
         palette = QtGui.QPalette()
         brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
         brush.setStyle(QtCore.Qt.SolidPattern)
@@ -524,9 +524,9 @@ class Ui_MainWindow(object):
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.ToolTipText, brush)
-        self.textEdit.setPalette(palette)
-        self.textEdit.setReadOnly(True)
-        self.textEdit.setObjectName(_fromUtf8("textEdit"))
+        self.textEdit_JtagConsole.setPalette(palette)
+        self.textEdit_JtagConsole.setReadOnly(True)
+        self.textEdit_JtagConsole.setObjectName(_fromUtf8("textEdit_JtagConsole"))
         self.comboBox_JtagSelectDevice = QtGui.QComboBox(self.tab_Jtag)
         self.comboBox_JtagSelectDevice.setGeometry(QtCore.QRect(10, 10, 201, 27))
         self.comboBox_JtagSelectDevice.setObjectName(_fromUtf8("comboBox_JtagSelectDevice"))
