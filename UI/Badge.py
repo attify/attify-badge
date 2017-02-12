@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '../UI/badge.ui'
+# Form implementation generated from reading ui file 'UI/badge.ui'
 #
 # Created by: PyQt4 UI code generator 4.11.4
 #
@@ -536,6 +536,7 @@ class Ui_MainWindow(object):
         self.pushButton_JtagStartServer.setObjectName(_fromUtf8("pushButton_JtagStartServer"))
         self.pushButton_JtagConnect = QtGui.QPushButton(self.tab_Jtag)
         self.pushButton_JtagConnect.setGeometry(QtCore.QRect(260, 10, 241, 27))
+        self.pushButton_JtagConnect.setCheckable(True)
         self.pushButton_JtagConnect.setObjectName(_fromUtf8("pushButton_JtagConnect"))
         self.pushButton_JtagSelectElf = QtGui.QPushButton(self.tab_Jtag)
         self.pushButton_JtagSelectElf.setGeometry(QtCore.QRect(550, 10, 201, 27))
