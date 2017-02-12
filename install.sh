@@ -15,7 +15,7 @@ sleep 1
 echo
 echo "[*] Updating apt"
 echo
-apt-get update
+sudo apt-get update
 echo
 echo "[*] Getting Pyserial"
 echo
