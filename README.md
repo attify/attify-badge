@@ -26,8 +26,10 @@ I'll make a installer for the tool soon.
   this is a hardware issue which will be resolved in the next version of
   the badge
 
-- Not exactly a bug, but the UI hangs for a few seconds while scanning the
-  I2C devices, I'll implement a thread to search for I2C devices.
+- Although it doesn't affect the functioning of the program, using the GPIO monitor
+  causes a segmentation fault at the time of quiting the tool. This does not crash the
+  application but only shows a error message whenever you decide to quit. Probably related
+  to terminating the GPIOInput Thread
 
 
 ###Note :
