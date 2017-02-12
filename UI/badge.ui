@@ -1148,7 +1148,7 @@
      <attribute name="title">
       <string>    JTAG    </string>
      </attribute>
-     <widget class="QTextEdit" name="textEdit">
+     <widget class="QTextEdit" name="textEdit_JtagConsole">
       <property name="geometry">
        <rect>
         <x>10</x>
