@@ -17,7 +17,6 @@ I'll make a installer for the tool soon.
 
 ###Not Implemented :
 - I2C - (read, write, erase)
-- JTAG  ( New window which allows direct firmware dumping )
 
 
 ###Bugs :
