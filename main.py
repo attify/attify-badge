@@ -5,7 +5,7 @@ from PyQt4 import QtCore, QtGui
 from PyQt4.QtCore import SIGNAL
 from UI.Badge import Ui_MainWindow
 from src.GpioInputMonitor import IPMonitor
-from src.Threads import UART_ConsoleReadThread,I2CScanner,OpenOCDServerThread,JTAGTelnetThread
+from src.Threads import UART_ConsoleReadThread,I2CScanner,OpenOCDServerThread,JTAGTelnetThread,JTAGGdbThread
 import Adafruit_GPIO as GPIO
 import Adafruit_GPIO.FT232H as FT232H
 import serial,os,fnmatch,sys,subprocess
@@ -44,6 +44,8 @@ class BadgeMain(Ui_MainWindow):
 		self.pushButton_JtagStartServer.clicked.connect(self.JTAG_startserver)
                 self.JTAG_getcfg()
 		self.pushButton_JtagConnect.clicked.connect(self.JTAG_telnetconnect)
+		self.pushButton_JtagRunGdb.clicked.connect(self.JTAG_rungdb)
+
 
 	def UART_getports(self):
 		#Function checks for connected usb devices
@@ -227,7 +229,7 @@ class BadgeMain(Ui_MainWindow):
         def JTAG_startserver(self):
 		if(self.pushButton_JtagStartServer.isChecked()):
                 	print("[*] JTAG_StartServer Executing ")
-                	self.textEdit_JtagConsole.append("[*] Initializing OpenOCD Server in the background \n")
+                	self.textEdit_JtagConsole.append("\n[*] Initializing OpenOCD Server in the background")
 			self.pushButton_JtagStartServer.setText("Stop OpenOCD Server")
                 	filepath=str(self.comboBox_JtagSelectDevice.currentText())
 			print(filepath)
@@ -235,7 +237,7 @@ class BadgeMain(Ui_MainWindow):
 			self.openocdthread.start()
 		else:
 			print("[*] Stopping OpenOCD Server ")
-                        self.textEdit_JtagConsole.append("[*] Stopping OpenOCD Server \n")
+                        self.textEdit_JtagConsole.append("[*] Stopping OpenOCD Server")
                         self.pushButton_JtagStartServer.setText("Start OpenOCD Server")
 			self.openocdthread.close()
 			del(self.openocdthread)
@@ -244,9 +246,22 @@ class BadgeMain(Ui_MainWindow):
 		if(self.pushButton_JtagConnect.isChecked()):
 			self.JtagTelnetThread=JTAGTelnetThread()
 			self.JtagTelnetThread.start()
+			self.pushButton_JtagConnect.setText(" Disconnect ")
 		else:
+                        self.pushButton_JtagConnect.setText("Connect to OpenOCD Server")
 			self.JtagTelnetThread.close()
-			del(self.JTAG_TelnetThread)
+			del(self.JtagTelnetThread)
+
+	def JTAG_rungdb(self):
+		if(self.pushButton_JtagRunGdb.isChecked()):
+			elf_path=str(self.lineEdit_JtagElfPath.text())
+			self.gdbthread=JTAGGdbThread(elf_path)
+			self.gdbthread.start()
+			self.pushButton_JtagRunGdb.setText(" Stop GDB ")
+		else:
+                        self.pushButton_JtagRunGdb.setText(" Run GDB ")
+                        self.gdbthread.close()
+                        del(self.gdbthread)
 
 if __name__=="__main__":
         app=QtGui.QApplication(sys.argv)
@@ -254,4 +269,3 @@ if __name__=="__main__":
         prog=BadgeMain(dialog)
         dialog.show()
         sys.exit(app.exec_())
-
