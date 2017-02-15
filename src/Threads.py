@@ -153,14 +153,16 @@ class I2COperationThread(QtCore.QThread):
 		op=0
 		#Try to claim ftdi device 
 		try:
+			FT232H.enable_FTDI_driver()
 			eeprom = MPSSE(I2C, FOUR_HUNDRED_KHZ)
 		except Exception as e:
-			print("[*] I2C Operation Thread Error :" + str(e))
+			print("[*] I2C Operation Thread Initialization Error :" + str(e))
 			self.terminate()
 			exit(1)
 
 		#Perform Operations
 		try:
+			#FT232H.enable_FTDI_driver()
 			if(self.operation=="Read"):
 				op=1
 				eeprom.Start()
@@ -174,7 +176,7 @@ class I2COperationThread(QtCore.QThread):
 						eeprom.Read(1)
 				eeprom.Stop()
 				open(FOUT,"wb").write(data)
-				print("I2C EEPROM Dump Successful ")
+				print("[*] I2C EEPROM Dump Successful ")
 
 			elif(self.operation=="Erase"):
 				op=2
@@ -189,8 +191,9 @@ class I2COperationThread(QtCore.QThread):
 			status=1
 
 		except Exception as e:
-			print("[*] Error :" +str(e))
+			eeprom.Close()
+			print("[*] I2C Thread Operation Error :" +str(e))
 			self.terminate()
 
                 self.emit(SIGNAL('I2c_operation_handler(int,int)'),status,op)
-
+		self.terminate()
