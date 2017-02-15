@@ -3,6 +3,7 @@ from PyQt4 import QtCore, QtGui
 from PyQt4.QtCore import SIGNAL
 import serial,os
 import subprocess
+from mpsse import *
 
 
 
@@ -127,4 +128,69 @@ class JTAGGdbThread(QtCore.QThread):
 
         def run(self):
                 self.proc=subprocess.Popen(['x-terminal-emulator','-e','arm-none-eabi-gdb','--eval-command=\"target remote localhost:3333\"',self.elf_path])
+
+
+class I2COperationThread(QtCore.QThread):
+	def __init__(self,filepath,operation,size):
+		print("[*] Initializing I2C Operation Thread ")
+		self.filepath=filepath
+		self.operation=operation
+		super(I2COperationThread,self).__init__()
+
+        def __del__(self):
+                self.wait()
+
+        def close(self):
+                print("[*] Terminating I2C Operation Thread")
+                self.terminate()
+
+	def run(self):
+		SIZE = 0x8000
+		WCMD = "\xA0\x00\x00"
+		RCMD = "\xA1"
+		FOUT = self.filepath
+		status=0
+		op=0
+		#Try to claim ftdi device 
+		try:
+			eeprom = MPSSE(I2C, FOUR_HUNDRED_KHZ)
+		except Exception as e:
+			print("[*] I2C Operation Thread Error :" + str(e))
+			self.terminate()
+			exit(1)
+
+		#Perform Operations
+		try:
+			if(self.operation=="Read"):
+				op=1
+				eeprom.Start()
+				eeprom.Write(WCMD)
+				if(eeprom.GetAck()==ACK):
+					eeprom.Start()
+					eeprom.Write(RCMD)
+					if(eeprom.GetAck()==ACK):
+						data=eeprom.Read(SIZE)
+						eeprom.SendNacks()
+						eeprom.Read(1)
+				eeprom.Stop()
+				open(FOUT,"wb").write(data)
+				print("I2C EEPROM Dump Successful ")
+
+			elif(self.operation=="Erase"):
+				op=2
+				#Erase OP
+				print("[*] Not implemented ")
+                	elif(self.operation=="Write"):
+				op=3
+				#Write Op
+				print("[*] Not Implemented ")
+
+			eeprom.Close()
+			status=1
+
+		except Exception as e:
+			print("[*] Error :" +str(e))
+			self.terminate()
+
+                self.emit(SIGNAL('I2c_operation_handler(int,int)'),status,op)
 
