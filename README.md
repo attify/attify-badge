@@ -13,10 +13,11 @@ I'll make a installer for the tool soon.
 - UART
 - GPIO - output, input
 - SPI  
-- I2c - search
+- I2c - search, read ( dump )
 
 ###Not Implemented :
-- I2C - (read, write, erase)
+- I2C - (write,erase) -> They're basically the same function
+  just slightly different, pretty close to figuring it out
 
 
 ###Bugs :
