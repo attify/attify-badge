@@ -1,11 +1,10 @@
 #!/usr/bin/python
 
-
 from PyQt4 import QtCore, QtGui
 from PyQt4.QtCore import SIGNAL
 from UI.Badge import Ui_MainWindow
 from src.GpioInputMonitor import IPMonitor
-from src.Threads import UART_ConsoleReadThread,I2CScanner,OpenOCDServerThread,JTAGTelnetThread,JTAGGdbThread
+from src.Threads import UART_ConsoleReadThread,I2CScanner,OpenOCDServerThread,JTAGTelnetThread,JTAGGdbThread,I2COperationThread
 import Adafruit_GPIO as GPIO
 import Adafruit_GPIO.FT232H as FT232H
 import serial,os,fnmatch,sys,subprocess
@@ -193,14 +192,32 @@ class BadgeMain(Ui_MainWindow):
 		self.InputMonitor.show()
 
 	def I2C_run(self):
-		self.FTDI_setup()
-                self.textEdit_I2cConsole.append("[*] Scanning all I2C addresses. ")
-		self.I2CScanThread=I2CScanner(self.ft232h)
-		self.I2CScanThread.start()
-                QtCore.QObject.connect(self.I2CScanThread,QtCore.SIGNAL("I2c_device_found(int)"), self.I2C_adddevice)
+		operation=self.comboBox_I2cOperation.currentText()
+		file=self.lineEdit_I2cFilePath.text()
+		if(operation=="Find Chip"):
+                	self.FTDI_setup()
+                	self.textEdit_I2cConsole.append("[*] Scanning all I2C addresses. ")
+			self.I2CScanThread=I2CScanner(self.ft232h)
+			self.I2CScanThread.start()
+                	QtCore.QObject.connect(self.I2CScanThread,QtCore.SIGNAL("I2c_device_found(int)"), self.I2C_adddevice)
+			FT232H.enable_FTDI_driver()
+
+		elif(operation=="Read"):
+			#Readop
+			print("[*] Reading I2c EEPROM ")
+			self.I2COpThread=I2COperationThread(file,operation,8000)
+			self.I2COpThread.start()
+			QtCore.QObject.connect(self.I2COpThread,QtCore.SIGNAL("I2c_operation_handler(int,int)"),self.I2C_operationhandler)
+		#elif(operation=="Write"):
+		#	#Writeop
+		#	print("[*] Writing to I2c EEPROM
+		#elif(operation=="Erase"):
+		#	#Eraseop
+		#	print("[*] Erasing I2C EEPROM ")
+
 
 	def I2C_adddevice(self,address):
-		#When the scan is complete, the I2CScanner Thread returns the number of devices found added to 1000
+		#When the I2c Device scan is complete, the I2CScanner Thread returns the number of devices found added to 1000
 		#So when this function receives a value greater than or equal to 1000 , it knows that the scan is
 		#complete and the number of devices found.
 		if(address>=1000):
@@ -209,6 +226,23 @@ class BadgeMain(Ui_MainWindow):
 			del(self.I2CScanThread)
 		else:
 			self.textEdit_I2cConsole.append("[*] Found I2C device at address 0x{0:02X}".format(address))
+
+	def I2C_operationhandler(self,status,op):
+		if(status==0):
+			self.textEdit_I2cConsole.append("[*] I2c Operation Failed ")
+			print("[*] I2C Operation Failed ")
+		else:
+			if(op==1):
+				print("[*] I2C Read Operation Successful ")
+	                        self.textEdit_I2cConsole.append("[*] I2c Read Operation Successful ")
+                        elif(op==2):
+                                print("[*] I2C Write Operation Successful ")
+                                self.textEdit_I2cConsole.append("[*] I2c Write Operation Successful ")
+                        elif(op==3):
+                                print("[*] I2C Erase Operation Successful ")
+                                self.textEdit_I2cConsole.append("[*] I2c Erase Operation Successful ")
+
+
 
         def JTAG_getcfg(self):
                 #Function checks for .cfg files in the 'cfg/' directory
@@ -232,7 +266,6 @@ class BadgeMain(Ui_MainWindow):
                 	self.textEdit_JtagConsole.append("\n[*] Initializing OpenOCD Server in the background")
 			self.pushButton_JtagStartServer.setText("Stop OpenOCD Server")
                 	filepath=str(self.comboBox_JtagSelectDevice.currentText())
-			print(filepath)
 			self.openocdthread=OpenOCDServerThread(filepath)
 			self.openocdthread.start()
 		else:
