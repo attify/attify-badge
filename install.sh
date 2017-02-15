@@ -38,9 +38,20 @@ echo
 sudo apt-get install git
 echo
 echo "[*] Getting Unzip "
+echo
 sudo apt-get install unzip
 echo
-echo "[*] Cloning Adafruit's FT232H Libraries"
+echo"[*] Cloning devttys0's libmpsse repository"
+echo
+cd libmpsse/src
+sudo ./configure
+sudo make
+sudo make install
+cd ../../
+echo
+echo
+git clone https://github.com/devttys0/libmpsse
+echo "[*] Cloning Adafruit's FT232H repository"
 git clone https://www.github.com/adafruit/Adafruit_Python_GPIO
 echo
 echo "[*] Installing Adafruit's FT232H Libraries "
@@ -70,6 +81,7 @@ echo
 echo "[*] Removing Files "
 sudo rm -r libftdi1-1.2.tar.bz2
 sudo rm -r Adafruit_Python_GPIO/
+sudo rm -r libmpsse
 echo
 echo "[*] Installation Complete "
 echo
