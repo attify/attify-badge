@@ -184,7 +184,8 @@ class BadgeMain(Ui_MainWindow):
 				self.ft232h.output(pin, GPIO.HIGH)
 			else:
 				self.ft232h.output(pin, GPIO.LOW)
-                                print("[*] Pin "+str(pin)+" : LOW ") 
+                                print("[*] Pin "+str(pin)+" : LOW ")
+
 
 	def GPIO_startmonitor(self):
 		if self.InputMonitor is None:
@@ -196,15 +197,20 @@ class BadgeMain(Ui_MainWindow):
 		file=self.lineEdit_I2cFilePath.text()
 		if(operation=="Find Chip"):
                 	self.FTDI_setup()
+                        self.textEdit_I2cConsole.append("")
                 	self.textEdit_I2cConsole.append("[*] Scanning all I2C addresses. ")
 			self.I2CScanThread=I2CScanner(self.ft232h)
 			self.I2CScanThread.start()
                 	QtCore.QObject.connect(self.I2CScanThread,QtCore.SIGNAL("I2c_device_found(int)"), self.I2C_adddevice)
-			FT232H.enable_FTDI_driver()
+
+
 
 		elif(operation=="Read"):
 			#Readop
+			self.ft232h.close()
+                        self.textEdit_I2cConsole.append("")
 			print("[*] Reading I2c EEPROM ")
+                        self.textEdit_I2cConsole.append("[*] Trying to dump the contents of I2C EEPROM ")
 			self.I2COpThread=I2COperationThread(file,operation,8000)
 			self.I2COpThread.start()
 			QtCore.QObject.connect(self.I2COpThread,QtCore.SIGNAL("I2c_operation_handler(int,int)"),self.I2C_operationhandler)
@@ -241,6 +247,8 @@ class BadgeMain(Ui_MainWindow):
                         elif(op==3):
                                 print("[*] I2C Erase Operation Successful ")
                                 self.textEdit_I2cConsole.append("[*] I2c Erase Operation Successful ")
+                self.textEdit_I2cConsole.append("")
+
 
 
 
