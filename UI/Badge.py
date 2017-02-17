@@ -800,8 +800,6 @@ class Ui_MainWindow(object):
         self.menubar.setObjectName(_fromUtf8("menubar"))
         self.menuFile = QtGui.QMenu(self.menubar)
         self.menuFile.setObjectName(_fromUtf8("menuFile"))
-        self.menuSettings = QtGui.QMenu(self.menubar)
-        self.menuSettings.setObjectName(_fromUtf8("menuSettings"))
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtGui.QStatusBar(MainWindow)
         self.statusbar.setObjectName(_fromUtf8("statusbar"))
@@ -813,7 +811,6 @@ class Ui_MainWindow(object):
         self.menuFile.addAction(self.actionAbout)
         self.menuFile.addAction(self.actionExit)
         self.menubar.addAction(self.menuFile.menuAction())
-        self.menubar.addAction(self.menuSettings.menuAction())
 
         self.retranslateUi(MainWindow)
         self.tabWidget.setCurrentIndex(0)
@@ -888,7 +885,6 @@ class Ui_MainWindow(object):
         self.pushButton_GpioStartInputMonitor.setText(_translate("MainWindow", "Start Input Monitor ", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_Gpio), _translate("MainWindow", "    GPIO    ", None))
         self.menuFile.setTitle(_translate("MainWindow", "File", None))
-        self.menuSettings.setTitle(_translate("MainWindow", "Settings", None))
         self.actionAbout.setText(_translate("MainWindow", "About", None))
         self.actionExit.setText(_translate("MainWindow", "Exit", None))
 
