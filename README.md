@@ -13,12 +13,10 @@ I'll make a installer for the tool soon.
 - UART
 - GPIO - output, input
 - SPI  
-- I2c - search, read ( dump )
+- I2c - search, read ( dump ), write
 
 ###Not Implemented :
-- I2C - (write,erase) -> They're basically the same function
-  just slightly different, pretty close to figuring it out
-
+- I2C - (write) -> Almost done, fixingbugs.
 
 ###Bugs :
 
@@ -26,17 +24,9 @@ I'll make a installer for the tool soon.
   this is a hardware issue which will be resolved in the next version of
   the badge
 
-- Although it doesn't affect the functioning of the program, using the GPIO monitor
-  causes a segmentation fault at the time of quiting the tool. This does not crash the
-  application but only shows a error message whenever you decide to quit. Probably related
-  to terminating the GPIOInput Thread
-
-
-###Note :
-
-I did the overhaul I was planning to do, re-implemented all the functionality
-in a more readable format, divided main.py into sub files. Re-did the UI to
-make it more cleaner. Added a refresh devices button to the UART page. Phew!
+- FTDI claiming error, since we're using two different FTDI libraries, there are 
+  sometime "unable to claim usb device" errors caused by trying to use multiple 
+  windows at once. Im working on it
 
 
 ###Install
