@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
 from PyQt4 import QtCore, QtGui
+from PyQt4.QtGui import QIcon
 from PyQt4.QtCore import SIGNAL
 from UI.Badge import Ui_MainWindow
 from src.GpioInputMonitor import IPMonitor
@@ -13,18 +14,15 @@ import serial,os,fnmatch,sys,subprocess
 class BadgeMain(Ui_MainWindow):
         def __init__(self,dialog,parent=None):
                 Ui_MainWindow.__init__(self)
-		######   UART  #########
 		self.ser=serial.Serial()
                 self.setupUi(dialog)
 		self.UART_getports()
 		self.pushButton_UartRefresh.clicked.connect(self.UART_getports)
                 self.pushButton_UartConnect.clicked.connect(self.UART_connect)
 		self.lineEdit_UartInput.returnPressed.connect(self.UART_send)
-		####################  SPI  #########################
 		self.pushButton_SpiRun.clicked.connect(self.SPI_run)
 		self.SPI_process = QtCore.QProcess()
 		self.SPI_process.readyRead.connect(self.SPI_dataReady)
-		###  GPIO ###
 		self.ft232h=0
 		self.gpio_init=0
  	        self.checkBox_d0.clicked.connect(lambda: self.GPIO_handler(0))
@@ -37,9 +35,7 @@ class BadgeMain(Ui_MainWindow):
                 self.checkBox_d7.clicked.connect(lambda: self.GPIO_handler(7))
 		self.InputMonitor=None
                 self.pushButton_GpioStartInputMonitor.clicked.connect(self.GPIO_startmonitor)
-		######################  I2C  #######################
 		self.pushButton_I2cRun.clicked.connect(self.I2C_run)
-		##############################  JTAG  ###############################
 		self.pushButton_JtagStartServer.clicked.connect(self.JTAG_startserver)
                 self.JTAG_getcfg()
 		self.pushButton_JtagConnect.clicked.connect(self.JTAG_telnetconnect)
@@ -49,6 +45,7 @@ class BadgeMain(Ui_MainWindow):
 	def UART_getports(self):
 		#Function checks for connected usb devices
         	print("[*] UART_getport invoked ")
+		self.statusbar.showMessage("    UART  | Getting USB Devices ",2000)
         	path="/dev/"
         	pattern="ttyUSB*"
         	result=[]
@@ -71,6 +68,7 @@ class BadgeMain(Ui_MainWindow):
 				self.ser.open()
 				self.lineEdit_UartInput.enabledChange(True)
 				print("[*] UART_Connect executed Successfully ")
+                		self.statusbar.showMessage("    UART  | Connected to "+str(ser_port),2000)
 				self.pushButton_UartConnect.setText("Disconnect")
 				print("[*] Serial port opened ")
 				if(self.ser.isOpen()):
@@ -85,9 +83,11 @@ class BadgeMain(Ui_MainWindow):
 				del(self.uartReadThread)
                                 self.lineEdit_UartInput.enabledChange(False)
                                 self.pushButton_UartConnect.setText("Connect")
+                                self.statusbar.showMessage("    UART  | Disconnected from "+str(ser_port),2000)
 				print("[*] Serial port closed ")
 		except Exception as e:
 			print("[*] UART_Connect Failed ->  "+str(e))
+                        self.statusbar.showMessage("    UART  | Connection Failed ",2000)
 			self.textEdit_UartConsole.append("[*] Connection Failed ")
 		return
 
@@ -113,6 +113,7 @@ class BadgeMain(Ui_MainWindow):
 			terminator="\n"
 		elif(str(self.comboBox_UartTerminator.currentText())=="Both CR + NL"):
 			terminator="\r\n"
+                self.statusbar.showMessage("    UART  | Sending %d bytes "%(len(command)*2),1000)
 		self.ser.write(str((command+terminator)).encode())
 		self.ser.write(terminator.encode())
 		self.lineEdit_UartInput.setText("")
@@ -130,22 +131,36 @@ class BadgeMain(Ui_MainWindow):
 		cmd=str(self.comboBox_SpiOperation.currentText()).strip()
 		if cmd=="Find Chip":
 			self.SPI_process.start('flashrom',['-p','ft2232_spi:type=232H'])
+                        self.statusbar.showMessage("   SPI  | Looking for devices ",1000)
 		elif cmd=="Read":
 			self.SPI_process.start('flashrom',['-p','ft2232_spi:type=232H','-r',filepath])
+                        self.statusbar.showMessage("   SPI  | Reading data from SPI device ",1000)
 		elif cmd=="Write":
 			self.SPI_process.start('flashrom',['-p','ft2232_spi:type=232H','-w',filepath])
+                        self.statusbar.showMessage("   SPI  | Writing to SPI device ",1000)
 		elif cmd=="Erase":
 			self.SPI_process.start('flashrom',['-p','ft2232_spi:type=232H','--erase',filepath])
+                        self.statusbar.showMessage("   SPI  | Erasing data on SPI device ",1000)
 
 	def FTDI_setup(self):
-        	if(self.ft232h==0):
                 	try:
-				print("[*] Enabling Adafruit FTDI ")
-                        	FT232H.use_FT232H()
-                        	self.ft232h = FT232H.FT232H()
+				if(self.ft232h):
+					print("[*] FTDI Drivers already enabled ")
+				else:
+                                	self.statusbar.showMessage("    Badge  | Setting up FTDI drivers ",1000)
+					print("[*] Enabling Adafruit FTDI ")
+                        		FT232H.use_FT232H()
+                        		self.ft232h = FT232H.FT232H()
 
 			except Exception as e:
+                                self.statusbar.showMessage("    Badge  | FTDI driver setup failed ",1000)
                                 print("[*] Error : "+str(e))
+
+	def FTDI_destroy(self):
+		try:
+			self.ft232h.close()
+		except:
+			print("[*] FTDI Drivers already disabled" )
 
 
 	def GPIO_setup(self):
@@ -163,8 +178,6 @@ class BadgeMain(Ui_MainWindow):
         		self.ft232h.setup(5, GPIO.OUT)
         		self.ft232h.setup(6, GPIO.OUT)
        			self.ft232h.setup(7, GPIO.OUT)
-			self.gpio_init=1
-
 
 
 	def GPIO_handler(self,pin):
@@ -198,6 +211,7 @@ class BadgeMain(Ui_MainWindow):
 		if(operation=="Find Chip"):
                 	self.FTDI_setup()
                         self.textEdit_I2cConsole.append("")
+                        self.statusbar.showMessage("    I2C   | Device scan initializing ",1000)
                 	self.textEdit_I2cConsole.append("[*] Scanning all I2C addresses. ")
 			self.I2CScanThread=I2CScanner(self.ft232h)
 			self.I2CScanThread.start()
@@ -207,31 +221,33 @@ class BadgeMain(Ui_MainWindow):
 
 		elif(operation=="Read"):
 			#Readop
-			self.ft232h.close()
                         self.textEdit_I2cConsole.append("")
 			print("[*] Reading I2c EEPROM ")
-                        self.textEdit_I2cConsole.append("[*] Trying to dump the contents of I2C EEPROM ")
+                        self.textEdit_I2cConsole.append("[*] Dumping the contents of I2C EEPROM ")
 			self.I2COpThread=I2COperationThread(file,operation,8000)
 			self.I2COpThread.start()
 			QtCore.QObject.connect(self.I2COpThread,QtCore.SIGNAL("I2c_operation_handler(int,int)"),self.I2C_operationhandler)
-		#elif(operation=="Write"):
-		#	#Writeop
-		#	print("[*] Writing to I2c EEPROM
-		#elif(operation=="Erase"):
-		#	#Eraseop
-		#	print("[*] Erasing I2C EEPROM ")
+
+		elif(operation=="Erase"):
+			#Writeop
+			print("[*] Erasing I2C EEPROM ")
+	                self.textEdit_I2cConsole.append("")
+                        self.textEdit_I2cConsole.append("[*] Erasing the contents of I2C EEPROM ")
+                        self.I2COpThread=I2COperationThread(file,operation,8000)
+                        self.I2COpThread.start()
+                        QtCore.QObject.connect(self.I2COpThread,QtCore.SIGNAL("I2c_operation_handler(int,int)"),self.I2C_operationhandler)
 
 
 	def I2C_adddevice(self,address):
-		#When the I2c Device scan is complete, the I2CScanner Thread returns the number of devices found added to 1000
-		#So when this function receives a value greater than or equal to 1000 , it knows that the scan is
-		#complete and the number of devices found.
 		if(address>=1000):
 			count=address-1000
                 	self.textEdit_I2cConsole.append("[*] Found "+str(count)+" I2C Devices ")
+                       	self.statusbar.showMessage("    I2C   | Device scan complete ",500)
+                        self.ft232h.close()
 			del(self.I2CScanThread)
 		else:
 			self.textEdit_I2cConsole.append("[*] Found I2C device at address 0x{0:02X}".format(address))
+
 
 	def I2C_operationhandler(self,status,op):
 		if(status==0):
@@ -239,13 +255,13 @@ class BadgeMain(Ui_MainWindow):
 			print("[*] I2C Operation Failed ")
 		else:
 			if(op==1):
-				print("[*] I2C Read Operation Successful ")
+                                self.statusbar.showMessage("    I2C   | I2C Dump Successful ",500)
 	                        self.textEdit_I2cConsole.append("[*] I2c Read Operation Successful ")
                         elif(op==2):
-                                print("[*] I2C Write Operation Successful ")
-                                self.textEdit_I2cConsole.append("[*] I2c Write Operation Successful ")
+                                self.statusbar.showMessage("    I2C   | I2C Write Successful ",500)
+                                self.textEdit_I2cConsole.append("[*] I2c Erase Operation Successful ")
                         elif(op==3):
-                                print("[*] I2C Erase Operation Successful ")
+                                self.statusbar.showMessage("    I2C   | I2C Write Successful ",500)
                                 self.textEdit_I2cConsole.append("[*] I2c Erase Operation Successful ")
                 self.textEdit_I2cConsole.append("")
 
@@ -307,6 +323,7 @@ class BadgeMain(Ui_MainWindow):
 if __name__=="__main__":
         app=QtGui.QApplication(sys.argv)
         dialog=QtGui.QMainWindow()
+	app.setWindowIcon(QIcon("UI/icon.png"))
         prog=BadgeMain(dialog)
         dialog.show()
         sys.exit(app.exec_())
