@@ -4,7 +4,7 @@ from PyQt4.QtCore import SIGNAL
 import serial,os
 import subprocess
 from mpsse import *
-
+from time import sleep
 
 
 class UART_ConsoleReadThread(QtCore.QThread):
@@ -146,7 +146,10 @@ class I2COperationThread(QtCore.QThread):
 
 	def run(self):
 		SIZE = 0x8000
-		WCMD = "\xA0\x00\x00"
+		WCMD = "\xA0"
+		DUMP = "\x00\x00"
+		addr2=['\x00','\x20','\x40','\x60','\x80','\xa0','\xc0','\xe0']
+		addr1=['\x00','\x01','\x02','\x03','\x04','\x05','\x06','\x07','\x08','\x09','\x0a','\x0b','\x0c','\x0d','\x0e','\x0f','x10','x11']
 		RCMD = "\xA1"
 		FOUT = self.filepath
 		status=0
@@ -166,7 +169,7 @@ class I2COperationThread(QtCore.QThread):
 			if(self.operation=="Read"):
 				op=1
 				eeprom.Start()
-				eeprom.Write(WCMD)
+				eeprom.Write(WCMD+DUMP)
 				if(eeprom.GetAck()==ACK):
 					eeprom.Start()
 					eeprom.Write(RCMD)
@@ -180,8 +183,16 @@ class I2COperationThread(QtCore.QThread):
 
 			elif(self.operation=="Erase"):
 				op=2
-				#Erase OP
-				print("[*] Not implemented ")
+				print("[*] Starting I2C Erase Initializing")
+				for a1 in addr1:
+					for a2 in addr2:
+						sleep(0.2)
+					eeprom.Start()
+					eeprom.Write(WCMD+a1+a2)
+					eeprom.Write('\xff'*32)
+					eeprom.SendNacks()
+					eeprom.Stop()
+				print("[*] I2C EEPROM Erase Successful ")
                 	elif(self.operation=="Write"):
 				op=3
 				#Write Op
@@ -192,8 +203,9 @@ class I2COperationThread(QtCore.QThread):
 
 		except Exception as e:
 			eeprom.Close()
-			print("[*] I2C Thread Operation Error :" +str(e))
+			print("[*] I2C Operation Thread Error :" +str(e))
 			self.terminate()
 
                 self.emit(SIGNAL('I2c_operation_handler(int,int)'),status,op)
+		print("[*] Terminating I2C Operation Thread ")
 		self.terminate()
