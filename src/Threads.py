@@ -183,7 +183,7 @@ class I2COperationThread(QtCore.QThread):
 
 			elif(self.operation=="Erase"):
 				op=2
-				print("[*] Starting I2C Erase Initializing")
+				print("[*] I2C Erase Initializing")
 				for a1 in addr1:
 					for a2 in addr2:
 						sleep(0.2)
