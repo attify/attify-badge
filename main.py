@@ -17,6 +17,7 @@ class BadgeMain(Ui_MainWindow):
 		self.ser=serial.Serial()
                 self.setupUi(dialog)
 		self.UART_getports()
+#		self.actionExit.mousePressEvent.connect(exit())
 		self.pushButton_UartRefresh.clicked.connect(self.UART_getports)
                 self.pushButton_UartConnect.clicked.connect(self.UART_connect)
 		self.lineEdit_UartInput.returnPressed.connect(self.UART_send)
@@ -147,7 +148,7 @@ class BadgeMain(Ui_MainWindow):
 				if(self.ft232h):
 					print("[*] FTDI Drivers already enabled ")
 				else:
-                                	self.statusbar.showMessage("    Badge  | Setting up FTDI drivers ",1000)
+	                               	self.statusbar.showMessage("    Badge  | Setting up FTDI drivers ",1000)
 					print("[*] Enabling Adafruit FTDI ")
                         		FT232H.use_FT232H()
                         		self.ft232h = FT232H.FT232H()
@@ -221,6 +222,7 @@ class BadgeMain(Ui_MainWindow):
 
 		elif(operation=="Read"):
 			#Readop
+                        self.FTDI_destroy()
                         self.textEdit_I2cConsole.append("")
 			print("[*] Reading I2c EEPROM ")
                         self.textEdit_I2cConsole.append("[*] Dumping the contents of I2C EEPROM ")
@@ -230,6 +232,7 @@ class BadgeMain(Ui_MainWindow):
 
 		elif(operation=="Erase"):
 			#Writeop
+                        self.FTDI_destroy()
 			print("[*] Erasing I2C EEPROM ")
 	                self.textEdit_I2cConsole.append("")
                         self.textEdit_I2cConsole.append("[*] Erasing the contents of I2C EEPROM ")
@@ -243,7 +246,6 @@ class BadgeMain(Ui_MainWindow):
 			count=address-1000
                 	self.textEdit_I2cConsole.append("[*] Found "+str(count)+" I2C Devices ")
                        	self.statusbar.showMessage("    I2C   | Device scan complete ",500)
-                        self.ft232h.close()
 			del(self.I2CScanThread)
 		else:
 			self.textEdit_I2cConsole.append("[*] Found I2C device at address 0x{0:02X}".format(address))
@@ -257,13 +259,16 @@ class BadgeMain(Ui_MainWindow):
 			if(op==1):
                                 self.statusbar.showMessage("    I2C   | I2C Dump Successful ",500)
 	                        self.textEdit_I2cConsole.append("[*] I2c Read Operation Successful ")
+
                         elif(op==2):
-                                self.statusbar.showMessage("    I2C   | I2C Write Successful ",500)
+                                self.statusbar.showMessage("    I2C   | I2C Erase Successful ",500)
                                 self.textEdit_I2cConsole.append("[*] I2c Erase Operation Successful ")
+
                         elif(op==3):
                                 self.statusbar.showMessage("    I2C   | I2C Write Successful ",500)
                                 self.textEdit_I2cConsole.append("[*] I2c Erase Operation Successful ")
-                self.textEdit_I2cConsole.append("")
+                del(self.I2COpThread)
+		self.textEdit_I2cConsole.append("")
 
 
 
