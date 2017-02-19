@@ -26,6 +26,8 @@ class BadgeMain(Ui_MainWindow):
 		self.SPI_process.readyRead.connect(self.SPI_dataReady)
 		self.ft232h=0
 		self.gpio_init=0
+		self.FTDI_setup()
+		self.GPIO_setup()
  	        self.checkBox_d0.clicked.connect(lambda: self.GPIO_handler(0))
                 self.checkBox_d1.clicked.connect(lambda: self.GPIO_handler(1))
                 self.checkBox_d2.clicked.connect(lambda: self.GPIO_handler(2))
@@ -183,7 +185,6 @@ class BadgeMain(Ui_MainWindow):
 
 	def GPIO_handler(self,pin):
 		self.FTDI_setup()
-		self.GPIO_setup()
 		pin_combo={0:self.comboBox_d0,1:self.comboBox_d1,2:self.comboBox_d2,3:self.comboBox_d3,4:self.comboBox_d4,5:self.comboBox_d5,6:self.comboBox_d6,7:self.comboBox_d7}
 		pin_check={0:self.checkBox_d0,1:self.checkBox_d1,2:self.checkBox_d2,3:self.checkBox_d3,4:self.checkBox_d4,5:self.checkBox_d5,6:self.checkBox_d6,7:self.checkBox_d7}
 		mode=pin_check[pin].isChecked()
