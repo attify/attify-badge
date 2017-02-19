@@ -11,6 +11,9 @@ echo "                         |___/      "
 echo
 echo "[*] Attify Badge Tool v1.0 Installer" 
 
+path="$(pwd)"
+cd ${path}
+
 sleep 1
 echo
 echo "[*] Updating apt"
@@ -41,8 +44,10 @@ echo "[*] Getting Unzip "
 echo
 sudo apt-get install unzip
 echo
-echo"[*] Cloning devttys0's libmpsse repository"
+cd ${path}
+echo "[*] Cloning devttys0's libmpsse repository"
 echo
+git clone https://github.com/devttys0/libmpsse
 cd libmpsse/src
 sudo ./configure
 sudo make
@@ -50,7 +55,7 @@ sudo make install
 cd ../../
 echo
 echo
-git clone https://github.com/devttys0/libmpsse
+cd ${path}
 echo "[*] Cloning Adafruit's FT232H repository"
 git clone https://www.github.com/adafruit/Adafruit_Python_GPIO
 echo
@@ -62,6 +67,7 @@ echo "[*] Getting LibFTDI "
 echo "[*] Installing dependencies "
 sudo apt-get install build-essential libusb-1.0-0-dev swig cmake python-dev libconfuse-dev libboost-all-dev
 echo
+cd ${path}
 echo "[*] Downloading Libraries "
 wget http://www.intra2net.com/en/developer/libftdi/download/libftdi1-1.2.tar.bz2
 echo
@@ -78,10 +84,6 @@ sudo make install
 
 cd ../../
 echo
-echo "[*] Removing Files "
-sudo rm -r libftdi1-1.2.tar.bz2
-sudo rm -r Adafruit_Python_GPIO/
-sudo rm -r libmpsse
 echo
 echo "[*] Installation Complete "
 echo
