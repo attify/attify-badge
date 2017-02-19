@@ -25,7 +25,7 @@ except AttributeError:
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName(_fromUtf8("Form"))
-        Form.resize(321, 427)
+        Form.resize(321, 454)
         palette = QtGui.QPalette()
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
@@ -164,7 +164,7 @@ class Ui_Form(object):
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.ToolTipText, brush)
         Form.setPalette(palette)
         self.frame = QtGui.QFrame(Form)
-        self.frame.setGeometry(QtCore.QRect(10, 20, 301, 431))
+        self.frame.setGeometry(QtCore.QRect(10, 20, 301, 421))
         palette = QtGui.QPalette()
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
@@ -359,8 +359,11 @@ class Ui_Form(object):
         self.line.setFrameShadow(QtGui.QFrame.Sunken)
         self.line.setObjectName(_fromUtf8("line"))
         self.StartMonitor = QtGui.QPushButton(self.frame)
-        self.StartMonitor.setGeometry(QtCore.QRect(180, 360, 101, 27))
+        self.StartMonitor.setGeometry(QtCore.QRect(150, 370, 71, 27))
         self.StartMonitor.setObjectName(_fromUtf8("StartMonitor"))
+        self.pushButton_Exit = QtGui.QPushButton(self.frame)
+        self.pushButton_Exit.setGeometry(QtCore.QRect(220, 370, 71, 27))
+        self.pushButton_Exit.setObjectName(_fromUtf8("pushButton_Exit"))
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
@@ -384,6 +387,7 @@ class Ui_Form(object):
         self.D6_Status.setText(_translate("Form", "State : Inactive", None))
         self.D7_Status.setText(_translate("Form", "State : Inactive", None))
         self.StartMonitor.setText(_translate("Form", "Start", None))
+        self.pushButton_Exit.setText(_translate("Form", "Stop", None))
 
 
 if __name__ == "__main__":
