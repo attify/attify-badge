@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>321</width>
-    <height>427</height>
+    <height>454</height>
    </rect>
   </property>
   <property name="palette">
@@ -434,7 +434,7 @@
      <x>10</x>
      <y>20</y>
      <width>301</width>
-     <height>431</height>
+     <height>421</height>
     </rect>
    </property>
    <property name="palette">
@@ -1082,14 +1082,27 @@
    <widget class="QPushButton" name="StartMonitor">
     <property name="geometry">
      <rect>
-      <x>180</x>
-      <y>360</y>
-      <width>101</width>
+      <x>150</x>
+      <y>370</y>
+      <width>71</width>
       <height>27</height>
      </rect>
     </property>
     <property name="text">
      <string>Start</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_Exit">
+    <property name="geometry">
+     <rect>
+      <x>220</x>
+      <y>370</y>
+      <width>71</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Stop</string>
     </property>
    </widget>
   </widget>
