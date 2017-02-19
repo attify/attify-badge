@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'UI-Files/Gpio-input.ui'
+# Form implementation generated from reading ui file 'Gpio-input.ui'
 #
 # Created by: PyQt4 UI code generator 4.11.4
 #
@@ -25,7 +25,7 @@ except AttributeError:
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName(_fromUtf8("Form"))
-        Form.resize(321, 461)
+        Form.resize(321, 454)
         palette = QtGui.QPalette()
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
@@ -164,7 +164,7 @@ class Ui_Form(object):
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.ToolTipText, brush)
         Form.setPalette(palette)
         self.frame = QtGui.QFrame(Form)
-        self.frame.setGeometry(QtCore.QRect(10, 20, 301, 431))
+        self.frame.setGeometry(QtCore.QRect(10, 20, 301, 421))
         palette = QtGui.QPalette()
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
@@ -305,9 +305,6 @@ class Ui_Form(object):
         self.frame.setFrameShape(QtGui.QFrame.StyledPanel)
         self.frame.setFrameShadow(QtGui.QFrame.Sunken)
         self.frame.setObjectName(_fromUtf8("frame"))
-        self.CloseButton = QtGui.QPushButton(self.frame)
-        self.CloseButton.setGeometry(QtCore.QRect(180, 390, 101, 27))
-        self.CloseButton.setObjectName(_fromUtf8("CloseButton"))
         self.label_1 = QtGui.QLabel(self.frame)
         self.label_1.setGeometry(QtCore.QRect(30, 30, 68, 17))
         self.label_1.setObjectName(_fromUtf8("label_1"))
@@ -362,15 +359,17 @@ class Ui_Form(object):
         self.line.setFrameShadow(QtGui.QFrame.Sunken)
         self.line.setObjectName(_fromUtf8("line"))
         self.StartMonitor = QtGui.QPushButton(self.frame)
-        self.StartMonitor.setGeometry(QtCore.QRect(180, 360, 101, 27))
+        self.StartMonitor.setGeometry(QtCore.QRect(150, 370, 71, 27))
         self.StartMonitor.setObjectName(_fromUtf8("StartMonitor"))
+        self.pushButton_Close = QtGui.QPushButton(self.frame)
+        self.pushButton_Close.setGeometry(QtCore.QRect(220, 370, 71, 27))
+        self.pushButton_Close.setObjectName(_fromUtf8("pushButton_Close"))
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
 
     def retranslateUi(self, Form):
         Form.setWindowTitle(_translate("Form", "GPIO Input Monitor", None))
-        self.CloseButton.setText(_translate("Form", "Close", None))
         self.label_1.setText(_translate("Form", "   Pin D0", None))
         self.label_2.setText(_translate("Form", "   Pin D1", None))
         self.label_3.setText(_translate("Form", "   Pin D2", None))
@@ -388,6 +387,7 @@ class Ui_Form(object):
         self.D6_Status.setText(_translate("Form", "State : Inactive", None))
         self.D7_Status.setText(_translate("Form", "State : Inactive", None))
         self.StartMonitor.setText(_translate("Form", "Start", None))
+        self.pushButton_Close.setText(_translate("Form", "Exit", None))
 
 
 if __name__ == "__main__":
