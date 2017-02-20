@@ -1,0 +1,64 @@
+In case of errors while installation 
+_________________________________________________________________________________________
+
+##python version problem
+How to check if this bug affects you
+
+- Open a new python 2.7 interpreter window 
+- Enter the following 
+
+import Adafruit_GPIO as GPIO
+import Adafruit_GPIO.FT232H as FT232H
+import ftdi1 
+
+- If there are no errors then this bug does not affect you.
+- If you see errors, follow the instructions below 
+
+Go to 'libftdi1-1.2/python' directory and  edit CmakeLists 
+
+Change
+`  find_package ( PythonLibs)`
+`  find_package ( PythonInterp)`
+
+to
+ 
+`  find_package ( PythonLibs 2.7 REQUIRED)`
+`  find_package ( PythonInterp 2.7 REQUIRED)`
+
+then
+
+`mkdir build`
+`cd build`
+`cmake -DPYTHON_EXECUTABLE:FILEPATH=/usr/bin/python -DCMAKE_INSTALL_PREFIX="/usr/" ../`
+`make `
+`sudo make install`
+___________________________________________________________________________________________
+
+##libmpsse install error
+
+While running ./install.sh, if the following error is encountered
+
+`In file included from fast.c:10:0:
+mpsse.h:9:18: fatal error: ftdi.h: No such file or directory
+ #include <ftdi.h> 
+		  ^`
+
+Go to the directory 'libmpsse/src/' and edit mpsse.h
+
+Change 
+
+`#if LIBFTDI1 == 1
+#include <libftdi1/ftdi.h>
+#else
+#include <ftdi.h>
+#endif`
+
+to
+
+`#if LIBFTDI1 == 1
+#include <libftdi1/ftdi.h>
+#else
+#include <libftdi1/ftdi.h>
+#endif`
+
+___________________________________________________________________________________________
