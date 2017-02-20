@@ -44,25 +44,6 @@ echo "[*] Getting Unzip "
 echo
 sudo apt-get install unzip
 echo
-cd ${path}
-echo "[*] Cloning devttys0's libmpsse repository"
-echo
-git clone https://github.com/devttys0/libmpsse
-cd libmpsse/src
-sudo ./configure
-sudo make
-sudo make install
-cd ../../
-echo
-echo
-cd ${path}
-echo "[*] Cloning Adafruit's FT232H repository"
-git clone https://www.github.com/adafruit/Adafruit_Python_GPIO
-echo
-echo "[*] Installing Adafruit's FT232H Libraries "
-cd Adafruit_Python_GPIO/
-sudo python setup.py install
-echo
 echo "[*] Getting LibFTDI "
 echo "[*] Installing dependencies "
 sudo apt-get install build-essential libusb-1.0-0-dev swig cmake python-dev libconfuse-dev libboost-all-dev
@@ -83,6 +64,26 @@ make
 sudo make install
 
 cd ../../
+cd ${path}
+echo "[*] Cloning devttys0's libmpsse repository"
+echo
+git clone https://github.com/devttys0/libmpsse
+cd libmpsse/src
+sudo ./configure
+sudo make
+sudo make install
+cd ../../
+echo
+echo
+cd ${path}
+echo "[*] Cloning Adafruit's FT232H repository"
+git clone https://www.github.com/adafruit/Adafruit_Python_GPIO
+echo
+echo "[*] Installing Adafruit's FT232H Libraries "
+cd Adafruit_Python_GPIO/
+sudo python setup.py install
+echo
+
 echo
 echo
 echo "[*] Installation Complete "
