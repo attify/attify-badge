@@ -24,6 +24,7 @@ Attify Badge GUI tool to interact over UART, SPI, JTAG, GPIO etc.
 ###Manual Install ( in case of weird errors ): 
 
 - Installing Git
+
 `sudo apt-get install git`
 
 - Getting libftdi
@@ -72,3 +73,8 @@ sudo python setup.py`
 - Run 
 Run main.py from the attify-badge directory ( with sudo )!
 `sudo python main.py'
+
+
+### Trouble Shooting 
+
+- Follow instructions from troubleshooter file.
