@@ -26,8 +26,11 @@ class BadgeMain(Ui_MainWindow):
 		self.SPI_process.readyRead.connect(self.SPI_dataReady)
 		self.ft232h=0
 		self.gpio_init=0
-		self.FTDI_setup()
-		self.GPIO_setup()
+		try:
+			self.FTDI_setup()
+			self.GPIO_setup()
+		except:
+			print("[*] FTDI Board not detected " )
  	        self.checkBox_d0.clicked.connect(lambda: self.GPIO_handler(0))
                 self.checkBox_d1.clicked.connect(lambda: self.GPIO_handler(1))
                 self.checkBox_d2.clicked.connect(lambda: self.GPIO_handler(2))
@@ -196,9 +199,11 @@ class BadgeMain(Ui_MainWindow):
 			self.ft232h.setup(pin,GPIO.OUT)
 			if(mode):
 				print("[*] Pin "+str(pin)+" : HIGH ") 
+	                        self.statusbar.showMessage("  GPIO  | Pin "+str(pin)+" : HIGH ",500)
 				self.ft232h.output(pin, GPIO.HIGH)
 			else:
 				self.ft232h.output(pin, GPIO.LOW)
+                                self.statusbar.showMessage("  GPIO  | Pin "+str(pin)+" : LOW ",500)
                                 print("[*] Pin "+str(pin)+" : LOW ")
 
 
@@ -292,6 +297,7 @@ class BadgeMain(Ui_MainWindow):
 
         def JTAG_startserver(self):
 		if(self.pushButton_JtagStartServer.isChecked()):
+			self.FTDI_destroy()
                 	print("[*] JTAG_StartServer Executing ")
                 	self.textEdit_JtagConsole.append("\n[*] Initializing OpenOCD Server in the background")
 			self.pushButton_JtagStartServer.setText("Stop OpenOCD Server")
