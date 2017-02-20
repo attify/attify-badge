@@ -1,32 +1,19 @@
 # attify-badge
 Attify Badge GUI tool to interact over UART, SPI, JTAG, GPIO etc.
 
-Requirements :
-Adafruit's FT232H libraries
-libftdi1-1.2
-pyserial
-PyQt4
 
-I'll make a installer for the tool soon.
-
-###Implemented :
+###Modules :
 - UART
-- GPIO - output, input
+- GPIO 
 - SPI  
-- I2c - search, read ( dump ), write
-
-###Not Implemented :
-- I2C - (write) -> Almost done, fixingbugs.
+- I2C 
+- JTAG
 
 ###Bugs :
 
 - In the GPIO monitor window, the floating states are detected as high.
   this is a hardware issue which will be resolved in the next version of
   the badge
-
-- FTDI claiming error, since we're using two different FTDI libraries, there are 
-  sometime "unable to claim usb device" errors caused by trying to use multiple 
-  windows at once. Im working on it
 
 
 ###Install
