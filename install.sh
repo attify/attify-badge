@@ -54,13 +54,13 @@ wget http://www.intra2net.com/en/developer/libftdi/download/libftdi1-1.2.tar.bz2
 echo
 echo "[*] Decompressing Libraries "
 tar xvf libftdi1-1.2.tar.bz2
+sudo mv src/modcmakefile libftdi1-1.2/python/CMakeLists.txt
 cd libftdi1-1.2
 mkdir build
 cd build
 echo
 echo "[*] Installing Libraries "
 cmake -DPYTHON_EXECUTABLE:FILEPATH=/usr/bin/python -DCMAKE_INSTALL_PREFIX="/usr/" ../
-cmake -DCMAKE_INSTALL_PREFIX="/usr/" ../
 make
 sudo make install
 
