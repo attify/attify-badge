@@ -59,6 +59,7 @@ mkdir build
 cd build
 echo
 echo "[*] Installing Libraries "
+cmake -DPYTHON_EXECUTABLE:FILEPATH=/usr/bin/python -DCMAKE_INSTALL_PREFIX="/usr/" ../
 cmake -DCMAKE_INSTALL_PREFIX="/usr/" ../
 make
 sudo make install
@@ -68,6 +69,7 @@ cd ${path}
 echo "[*] Cloning devttys0's libmpsse repository"
 echo
 git clone https://github.com/devttys0/libmpsse
+sudo cp src/mpsse.h libmpsse/src/
 cd libmpsse/src
 sudo ./configure
 sudo make
