@@ -1,11 +1,5 @@
-The tool was built on top of open source libraries and other open source tools,
-We would like to thank the authors of said tools and libraries for their contribution 
-to the community.
-
-Libmpsse             :   devttys0
-Adafruit FT232H Libs :   Tony DiCola, Adafruit Industries
-Flashrom             :   Flashrom.org
-OpenOCD		     :   Dominic Rath
-GNU Debugger Project :   gnu.org
-
-
+Libmpsse                :   devttys0                             - https://github.com/devttys0/libmpsse
+Adafruit FT232H Libs    :   Tony DiCola, Adafruit Industries     - https://github.com/adafruit/Adafruit_Python_GPIO
+Flashrom                :   Flashrom.org                         - https://flashrom.org
+OpenOCD		        :   Dominic Rath                         - https://openocd.org
+GNU Debugger Project    :   gnu.org			         - https://gnu.org
