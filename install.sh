@@ -85,7 +85,10 @@ echo "[*] Installing Adafruit's FT232H Libraries "
 cd Adafruit_Python_GPIO/
 sudo python setup.py install
 echo
-
+cd ..
+sudo rm -r Adafruit_Python_GPIO/
+sudo rm -r libmpsse
+sudo rm -r libftdi1-1.2.tar.bz2
 echo
 echo
 echo "[*] Installation Complete "
