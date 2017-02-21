@@ -1,0 +1,11 @@
+The tool was built on top of open source libraries and other open source tools,
+We would like to thank the authors of said tools and libraries for their contribution 
+to the community.
+
+Libmpsse             :   devttys0
+Adafruit FT232H Libs :   Tony DiCola, Adafruit Industries
+Flashrom             :   Flashrom.org
+OpenOCD		     :   Dominic Rath
+GNU Debugger Project :   gnu.org
+
+
