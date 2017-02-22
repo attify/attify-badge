@@ -22,8 +22,7 @@ Attify Badge GUI tool to interact over UART, SPI, JTAG, GPIO etc.
 
 ### Trouble Shooting 
 
-- In case the installer shows errors, try installing the library/tool which
-  causes the error manually. 
+- In case the installer shows errors, try installing it manually.
 
 - If that doesn't work register an issue on github and we will get back to you
   ASAP.
