@@ -28,6 +28,10 @@ echo "[*] Installing Flashrom "
 echo
 sudo apt-get install flashrom
 echo
+echo "[*] Installing arm tool chain "
+echo
+sudo apt install gdb-arm-none-eabi
+echo
 echo "[*] Installing OpenOCD "
 echo
 sudo apt-get install openocd
