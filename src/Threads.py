@@ -12,6 +12,7 @@ class UART_ConsoleReadThread(QtCore.QThread):
 		self.ser=ser
                 super(UART_ConsoleReadThread,self).__init__()
                 string=""
+
 		print("[*] Initializing ConsoleReadThread ")
 
         def __del__(self):
@@ -127,7 +128,11 @@ class JTAGGdbThread(QtCore.QThread):
                 self.terminate()
 
         def run(self):
-                self.proc=subprocess.Popen(['x-terminal-emulator','-e','arm-none-eabi-gdb','--eval-command=\"target remote localhost:3333\"',self.elf_path])
+                #string='x-terminal-emulator -e arm-none-eabi-gdb --eval-command=\"target remote localhost:3333\"'+self.elf_path
+                f=open("src/gdbtemp.sh","w")
+		f.write("x-terminal-emulator -e arm-none-eabi-gdb --eval-command=\"target remote localhost:3333\""+self.elf_path)
+		f.close()
+		subprocess.Popen(["bash","src/gdbtemp.sh"])
 
 
 class I2COperationThread(QtCore.QThread):
